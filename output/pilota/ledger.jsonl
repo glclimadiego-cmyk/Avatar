@@ -1,0 +1,20 @@
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T19:40:44+00:00"}
+{"stage": "voice", "service": "espeak-ng (locale)", "chars": 134, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T19:40:44+00:00"}
+{"stage": "voice", "service": "espeak-ng (locale)", "chars": 130, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T19:40:44+00:00"}
+{"stage": "voice", "service": "espeak-ng (locale)", "chars": 188, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T19:40:44+00:00"}
+{"stage": "voice", "service": "espeak-ng (locale)", "chars": 189, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T19:40:44+00:00"}
+{"stage": "voice", "service": "espeak-ng (locale)", "chars": 107, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T19:40:45+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 56.989, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 56.99s)": false, "sottotitoli SRT incorporati": true}, "status": "check_failed", "ts": "2026-11-15T19:42:08+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T19:42:16+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T19:43:42+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T19:44:06+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T19:45:33+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T19:45:40+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T19:47:04+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T19:47:04+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T19:47:48+00:00"}
+{"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T19:48:04+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T19:48:24+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T19:49:44+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T19:49:44+00:00"}
+{"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T19:49:59+00:00"}

@@ -1,0 +1,59 @@
+# Render report — Pompa di calore - pilota 3D cartoon
+
+Generato: 2026-11-15T19:49:59  
+File: `test.mp4`
+
+## Stato
+
+**ANIMATIC DI CONTROLLO — NON è il video finale.** Personaggio = pose statiche ritagliate dalla tavola approvata (spostate e alternate, senza camminata né labiale reali); voce = sintesi offline espeak-ng segnaposto. Servono per verificare tempi, grafica tecnica, sottotitoli e montaggio.
+
+## Verifiche automatiche sul file
+
+- [x] risoluzione 1920x1080
+- [x] 25 fps
+- [x] video H.264
+- [x] audio AAC
+- [x] durata ~8.0s (misurata 8.00s)
+
+## Timeline (adattata alla durata reale della voce)
+
+| Scena | Inizio | Durata | Layout | Testo |
+|---|---|---|---|---|
+| S01 | 0.0s | 10.4s | walk_in | Ciao! Oggi scopriamo come funziona una pompa di calore e perché può ri… |
+| S02 | 10.4s | 10.6s | walk_to_monitor | Anche quando fuori fa freddo, l'aria contiene energia termica. La pomp… |
+| S03 | 21.0s | 13.8s | diagram_cycle | Il refrigerante evapora assorbendo calore, il compressore ne aumenta p… |
+| S04 | 34.8s | 14.1s | hydronic | Con l'energia elettrica necessaria al compressore, il sistema può tras… |
+| S05 | 48.9s | 8.9s | closeup | Nei prossimi episodi vedremo come dimensionarla, installarla e farla l… |
+
+Durata totale: 57.8s (obiettivo storyboard 60s; la narrazione non è stata compressa).
+
+## Servizi usati e costi
+
+- 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+- 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+- 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+- 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+- 2026-11-15T19:40:45+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+
+Spesa stimata cumulativa: 0.00 USD
+
+## Errori / avvisi
+
+- nessuno
+
+## Criteri di accettazione (verifica umana)
+
+- [ ] coerenza volto e occhiali — N/A nell'animatic (immagine approvata)
+- [ ] camminata fluida — NON presente nell'animatic: richiede clip image-to-video
+- [ ] mani senza deformazioni evidenti — N/A animatic
+- [ ] sincronizzazione labiale accettabile — NON presente: serve lip-sync (clip o servizio dedicato)
+- [ ] schemi tecnici corretti — generati da codice (graphics.py): rileggere
+- [ ] testi senza errori — testi solo da codice/copione: rileggere
+
+## Punti di approvazione umana
+
+1. Copione e storyboard (`"approved": true`).
+2. Test 5–8 s (`approve --key test_clip`).
+3. Generazione completa (`approve --key full_generation`).
+4. Voce a pagamento (`approve --key voice_paid`).
+5. Revisione finale del MP4 e degli schemi tecnici prima della pubblicazione.

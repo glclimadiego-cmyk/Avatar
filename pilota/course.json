@@ -1,0 +1,30 @@
+{
+  "tts": "espeak",
+  "video": "animatic",
+  "elevenlabs_voice_id": null,
+  "elevenlabs_model": "eleven_multilingual_v2",
+  "fal_video_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
+  "fal_keyframe_model": "fal-ai/nano-banana/edit",
+  "clip_seconds_options": [
+    5,
+    10
+  ],
+  "rates": {
+    "_nota": "Tariffe INDICATIVE da verificare sul listino prima di approvare",
+    "fal_video_usd_per_s": 0.14,
+    "fal_keyframe_usd_per_image": 0.04,
+    "elevenlabs_usd_per_1k_chars": 0.17
+  },
+  "test_scene": {
+    "action": "the character walks from left to right across a clean boiler room, stops, turns toward camera, then points with his right hand at a small demonstration model of an air-to-water heat pump outdoor unit standing on a low bench",
+    "camera": "medium wide shot, slow lateral tracking",
+    "keyframe_prompt": "Place exactly this character (identical face, dark-blue rectangular glasses, beard, stocky body, navy polo, dark grey work trousers with orange-trimmed cargo pockets, safety shoes) standing at the left of a clean boiler room with red and blue pipes, full body, side view walking to the right. On a low bench at the right: a small demonstration model of an air-to-water heat pump outdoor unit (white box with round fan grille), clearly a display model. Pixar-like 3D, soft warm light, 16:9. No text, no logos, no brand marks.",
+    "motion_prompt": "The man walks naturally from left to right with a steady walk cycle, stops beside the bench, turns his body toward the camera, smiles and points with his right index finger at the small heat pump model. Face, glasses and clothes stay identical. Five-fingered hands. Smooth slow lateral camera tracking. No text appears."
+  },
+  "scene_overrides": {
+    "S03": {
+      "base": "drawn",
+      "_nota": "scena quasi tutta grafica: niente clip a pagamento, presentatore in riquadro"
+    }
+  }
+}

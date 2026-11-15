@@ -1,0 +1,15 @@
+{
+  "project": "Pompa di calore - pilota 3D cartoon",
+  "target_duration_seconds": 60,
+  "format": {"width": 1920, "height": 1080, "fps": 25, "language": "it-IT"},
+  "character_reference": "assets/avatar_3d_approvato.png",
+  "scenes": [
+    {"id": "S01", "start": 0, "end": 10, "action": "Personaggio entra camminando in centrale termica e saluta la camera", "camera": "campo medio in movimento", "speech_section": "00-10"},
+    {"id": "S02", "start": 10, "end": 23, "action": "Cammina fino al monitor che illustra una pompa di calore aria-acqua esterna; indica l'unità", "camera": "carrellata laterale", "speech_section": "10-23"},
+    {"id": "S03", "start": 23, "end": 38, "action": "Presenta un diagramma tecnico vettoriale con evaporatore, compressore, condensatore, espansione", "camera": "alternanza personaggio e grafica", "speech_section": "23-38"},
+    {"id": "S04", "start": 38, "end": 51, "action": "Indica i collegamenti verso impianto di riscaldamento e spiega il bilancio energetico", "camera": "piano americano", "speech_section": "38-51"},
+    {"id": "S05", "start": 51, "end": 60, "action": "Si rivolge alla camera, sorride e saluta", "camera": "mezzo busto", "speech_section": "51-60"}
+  ],
+  "deliverables": ["pilot.mp4", "pilot.srt", "voiceover.wav", "render_report.md"],
+  "acceptance": ["coerenza volto e occhiali", "camminata fluida", "mani senza deformazioni evidenti", "sincronizzazione labiale accettabile", "schemi tecnici corretti", "testi senza errori"]
+}

@@ -1,0 +1,6 @@
+__pycache__/
+output/**/voice/
+output/**/sprites/
+output/**/clips/
+output/**/keyframes/
+output/**/*.wav

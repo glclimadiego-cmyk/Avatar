@@ -1,0 +1,65 @@
+1
+00:00:00,500 --> 00:00:00,845
+Ciao!
+
+2
+00:00:00,845 --> 00:00:06,025
+Oggi scopriamo come funziona una pompa
+di calore e perché può riscaldare un
+
+3
+00:00:06,025 --> 00:00:09,616
+edificio utilizzando energia
+presente nell'ambiente.
+
+4
+00:00:10,916 --> 00:00:15,398
+Anche quando fuori fa freddo,
+l'aria contiene energia termica.
+
+5
+00:00:15,398 --> 00:00:20,241
+La pompa di calore la raccoglie
+attraverso un circuito frigorifero.
+
+6
+00:00:21,541 --> 00:00:26,909
+Il refrigerante evapora assorbendo calore,
+il compressore ne aumenta pressione e
+
+7
+00:00:26,909 --> 00:00:32,210
+temperatura, il condensatore trasferisce
+il calore all'impianto e la valvola di
+
+8
+00:00:32,210 --> 00:00:34,022
+espansione chiude il ciclo.
+
+9
+00:00:35,322 --> 00:00:40,514
+Con l'energia elettrica necessaria al
+compressore, il sistema può trasferire
+
+10
+00:00:40,514 --> 00:00:44,819
+all'edificio più energia termica
+di quella elettrica consumata.
+
+11
+00:00:44,819 --> 00:00:48,098
+Il risultato dipende dalle
+condizioni di lavoro.
+
+12
+00:00:49,398 --> 00:00:55,182
+Nei prossimi episodi vedremo come
+dimensionarla, installarla e farla lavorare in
+
+13
+00:00:55,182 --> 00:00:56,338
+modo efficiente.
+
+14
+00:00:56,338 --> 00:00:56,989
+A presto!
