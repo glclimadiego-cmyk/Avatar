@@ -209,6 +209,8 @@ def cmd_build(a):
         targets = [{**tl[0], **cfg.get("test_scene", {})}] if a.test else [s for s in tl if s.get("base", "clip") == "clip"]
         assets = project / "assets"
         refs = [assets / sb.get("character_reference", "assets/avatar_3d_approvato.png").split("/")[-1], assets / "scena_riferimento.png"]
+        # A) tutti i fotogrammi di partenza
+        pending = []
         for sc in targets:
             kf = out / "keyframes" / f"{sc['id']}.png"
             try:
@@ -217,12 +219,25 @@ def cmd_build(a):
                     first_kf = out / "keyframes" / f"{tl[0]['id']}.png"
                     sc_refs = [refs[0], first_kf] if sc["id"] != tl[0]["id"] and first_kf.with_suffix(".approvato").exists() else refs
                     pv.generate_keyframe(sc, sc_refs, kf, led, cfg, approval)
-                ok_flag = kf.with_suffix(".approvato")
-                if not ok_flag.exists() and not a.keyframes_ok:
-                    print(f"[STOP] Controlla il fotogramma di partenza {kf} (volto, occhiali, abiti, niente scritte).\n"
-                          f"       Se va bene rilancia con --keyframes-ok; se no cancellalo e rilancia per rigenerarlo.")
-                    led.log(stage="stop", reason=f"revisione keyframe {sc['id']}"); return 3
-                ok_flag.write_text("ok")
+            except pv.ApprovalRequired as e:
+                print(e); led.log(stage="stop", reason=str(e)); return 2
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"{sc['id']} keyframe: {e}"); print(f"[ERRORE] {sc['id']} keyframe: {e}"); continue
+            if not kf.with_suffix(".approvato").exists():
+                if a.keyframes_ok:
+                    kf.with_suffix(".approvato").write_text("ok")
+                else:
+                    pending.append(kf)
+        if pending:
+            print("[STOP] Controlla i fotogrammi di partenza (volto, occhiali, abiti, niente scritte):\n  " + "\n  ".join(map(str, pending)) +
+                  "\n  Se vanno bene rilancia con --keyframes-ok; per rigenerarne uno cancellalo e rilancia.")
+            led.log(stage="stop", reason="revisione keyframe " + ", ".join(p.stem for p in pending)); return 3
+        # B) clip video
+        for sc in targets:
+            kf = out / "keyframes" / f"{sc['id']}.png"
+            if not kf.exists():
+                continue
+            try:
                 segs = clip_seconds(8 if a.test else sc["dur"], cfg["clip_seconds_options"])
                 dest = clips / f"{sc['id']}.mp4"
                 if not dest.exists():

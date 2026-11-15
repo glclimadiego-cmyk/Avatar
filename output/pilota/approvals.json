@@ -8,5 +8,10 @@
     "approved_at": "2026-11-15T21:05:43+00:00",
     "max_usd": 1.0,
     "note": "Diego ha scelto la voce Marco; crediti inclusi nell'abbonamento Creator"
+  },
+  "full_generation": {
+    "approved_at": "2026-11-15T21:10:07+00:00",
+    "max_usd": 8.0,
+    "note": "autorizzato da Diego in chat: pilota completo, tetto 8 USD"
   }
 }
