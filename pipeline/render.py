@@ -189,16 +189,17 @@ def scene_frame(sc, t, actor: Actor, base: Image.Image | None):
         fr = g.boiler_room(True).convert("RGBA")
         draw_actor = True
 
-    def monitor(content):
+    def monitor(content, appear=1.0):
         if base is None:
             fr.paste(content, g.MONITOR_SCREEN[:2])
-        else:  # nella clip il monitor non è tracciabile: riquadro grafico sovrapposto
-            c = content.resize((int(content.width * 0.9), int(content.height * 0.9)))
-            fr.paste(c, (W - c.width - 40, 60))
+        elif appear > 0.01:  # nella clip il monitor non è tracciabile: riquadro grafico sovrapposto
+            c = content.resize((int(content.width * 0.9), int(content.height * 0.9))).convert("RGBA")
+            c.putalpha(int(255 * g.ease(appear)))
+            fr.alpha_composite(c, (W - c.width - 40, 60))
 
     if lay == "walk_in":
         t_stop = 0.45 * D
-        monitor(g.monitor_outdoor(t, appear=0.0))
+        monitor(g.monitor_outdoor(t, appear=0.0), appear=0.0)
         x = -250 + (760 + 250) * g.ease(min(t / t_stop, 1)) if t < t_stop else 760
         if draw_actor:
             actor.shadow(fr, x, FLOOR, 260)
@@ -215,7 +216,8 @@ def scene_frame(sc, t, actor: Actor, base: Image.Image | None):
 
     elif lay == "walk_to_monitor":
         t_stop = 0.35 * D
-        monitor(g.monitor_outdoor(t, appear=(t - 0.2 * D) / 0.15 / D))
+        ap = (t - 0.2 * D) / 0.15 / D
+        monitor(g.monitor_outdoor(t, appear=ap if base is None else 1.0), appear=ap)
         x = 760 + (1080 - 760) * g.ease(min(t / t_stop, 1))
         if draw_actor:
             actor.shadow(fr, x, FLOOR, 260)
