@@ -1,11 +1,9 @@
 # Render report — Pompa di calore - pilota 3D cartoon
 
-Generato: 2026-11-15T21:08:28  
+Generato: 2026-11-15T21:25:56  
 File: `pilot.mp4`
 
 ## Stato
-
-**ANIMATIC DI CONTROLLO — NON è il video finale.** Personaggio = pose statiche ritagliate dalla tavola approvata (spostate e alternate, senza camminata né labiale reali); voce = elevenlabs (Marco - Friendly, Calm and Warm). Servono per verificare tempi, grafica tecnica, sottotitoli e montaggio.
 
 ## Verifiche automatiche sul file
 
@@ -42,8 +40,17 @@ Durata totale: 51.1s (obiettivo storyboard 60s; la narrazione non è stata compr
 - 2026-11-15T21:05:52+00:00 voice  — elevenlabs — ok — 0.0 USD 
 - 2026-11-15T21:05:55+00:00 voice  — elevenlabs — ok — 0.0 USD 
 - 2026-11-15T21:05:57+00:00 voice  — elevenlabs — ok — 0.0 USD 
+- 2026-11-15T21:10:30+00:00 keyframe S02 — fal:fal-ai/nano-banana-2/edit — ok — 0.12 USD 
+- 2026-11-15T21:10:57+00:00 keyframe S04 — fal:fal-ai/nano-banana-2/edit — ok — 0.12 USD 
+- 2026-11-15T21:11:19+00:00 keyframe S05 — fal:fal-ai/nano-banana-2/edit — ok — 0.12 USD 
+- 2026-11-15T21:11:58+00:00 keyframe S04 — fal:fal-ai/nano-banana-2/edit — ok — 0.12 USD 
+- 2026-11-15T21:15:11+00:00 clip S01 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.7 USD 
+- 2026-11-15T21:17:16+00:00 clip S02 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.7 USD 
+- 2026-11-15T21:19:11+00:00 clip S04 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.7 USD 
+- 2026-11-15T21:21:06+00:00 clip S04 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.35 USD 
+- 2026-11-15T21:23:16+00:00 clip S05 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.7 USD 
 
-Spesa stimata cumulativa: 0.82 USD
+Spesa stimata cumulativa: 4.45 USD
 
 ## Errori / avvisi
 
@@ -51,10 +58,10 @@ Spesa stimata cumulativa: 0.82 USD
 
 ## Criteri di accettazione (verifica umana)
 
-- [ ] coerenza volto e occhiali — N/A nell'animatic (immagine approvata)
-- [ ] camminata fluida — NON presente nell'animatic: richiede clip image-to-video
-- [ ] mani senza deformazioni evidenti — N/A animatic
-- [ ] sincronizzazione labiale accettabile — NON presente: serve lip-sync (clip o servizio dedicato)
+- [ ] coerenza volto e occhiali — da controllare clip per clip
+- [ ] camminata fluida — da controllare
+- [ ] mani senza deformazioni evidenti — da controllare
+- [ ] sincronizzazione labiale accettabile — da controllare
 - [ ] schemi tecnici corretti — generati da codice (graphics.py): rileggere
 - [ ] testi senza errori — testi solo da codice/copione: rileggere
 

@@ -162,9 +162,9 @@ def crossfade_pose(actor, frame, t, t_switch, a, b, **kw):
         actor.draw(frame, a, alpha=1 - k, **kw); actor.draw(frame, b, alpha=k, **kw)
 
 
-def camera(frame: Image.Image, zoom: float, cx: float, cy: float) -> Image.Image:
-    """Zoom digitale centrato in (cx, cy) – simula carrellate/push-in."""
-    if abs(zoom - 1) < 1e-3:
+def camera(frame: Image.Image, zoom: float, cx: float, cy: float, real_clip: bool = False) -> Image.Image:
+    """Zoom digitale centrato in (cx, cy) – simula carrellate/push-in (solo animatic: la clip ha già la sua camera)."""
+    if real_clip or abs(zoom - 1) < 1e-3:
         return frame
     w, h = W / zoom, H / zoom
     x0 = min(max(cx - w / 2, 0), W - w); y0 = min(max(cy - h / 2, 0), H - h)
@@ -207,12 +207,17 @@ def scene_frame(sc, t, actor: Actor, base: Image.Image | None):
                 actor.draw(fr, "side", x, FLOOR, FULL_H, bob=walk_bob(t))
             else:
                 crossfade_pose(actor, fr, t, t_stop, "side", "present", cx=x, feet_y=FLOOR, height=FULL_H)
-        k = g.ease((t - 0.6) / 0.6) - g.ease((t - (D - 1.2)) / 0.6)
+        if base is None:
+            k = g.ease((t - 0.6) / 0.6) - g.ease((t - (D - 1.2)) / 0.6)
+            pos, size = (W // 2 - 450, 70), (900, 200)
+        else:  # sulla clip il personaggio viene verso la camera: titolo in basso a sinistra, solo all'inizio
+            k = g.ease((t - 0.4) / 0.5) - g.ease((t - 3.6) / 0.5)
+            pos, size = (50, H - 230), (760, 180)
         if k > 0:
-            card = g.title_card(["La pompa di calore"], sub="Come funziona", size=(900, 200))
+            card = g.title_card(["La pompa di calore"], sub="Come funziona", size=size)
             card.putalpha(card.getchannel("A").point(lambda v: int(v * k)))
-            fr.alpha_composite(card, (W // 2 - 450, 70))
-        fr = camera(fr, 1.0 + 0.06 * g.ease(t / D), 760, 600)
+            fr.alpha_composite(card, pos)
+        fr = camera(fr, 1.0 + 0.06 * g.ease(t / D), 760, 600, base is not None)
 
     elif lay == "walk_to_monitor":
         t_stop = 0.35 * D
@@ -225,12 +230,12 @@ def scene_frame(sc, t, actor: Actor, base: Image.Image | None):
                 actor.draw(fr, "side", x, FLOOR, FULL_H, bob=walk_bob(t))
             else:
                 crossfade_pose(actor, fr, t, t_stop, "side", "present", cx=x, feet_y=FLOOR, height=FULL_H)
-        fr = camera(fr, 1.12, 700 + 600 * g.ease(t / D), 560)  # carrellata laterale
+        fr = camera(fr, 1.12, 700 + 600 * g.ease(t / D), 560, base is not None)  # carrellata laterale
 
     elif lay == "diagram_cycle":
         cues = [cue_time(sc, k) for k in sc.get("cues", ["evapora", "compressore", "condensatore", "valvola"])]
         active = max([i for i, c in enumerate(cues) if t >= c - 0.15] or [0])
-        diag = g.cycle_diagram(t, active, appear=(t - 1.0) / 0.6).convert("RGBA")
+        diag = g.cycle_diagram(t, active, appear=(t - 0.05) / 0.5).convert("RGBA")
         intro = 1.4 if sc.get("base", "clip") == "clip" else -1
         if t < intro + 0.4:  # alternanza: personaggio che "introduce" lo schema
             room = fr
@@ -253,7 +258,7 @@ def scene_frame(sc, t, actor: Actor, base: Image.Image | None):
     elif lay == "closeup":
         if draw_actor:
             actor.draw(fr, "present", 960, FLOOR + 1560, 2400)  # mezzo busto
-        fr = camera(fr, 1.0 + 0.05 * g.ease(t / D), 960, 400)
+        fr = camera(fr, 1.0 + 0.05 * g.ease(t / D), 960, 400, base is not None)
         k = g.ease((t - 0.35 * D) / 0.6)
         if k > 0:
             card = g.title_card(["Prossimi episodi"], sub="Dimensionamento · Installazione · Efficienza", size=(1100, 200))
