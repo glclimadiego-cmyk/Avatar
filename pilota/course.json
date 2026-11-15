@@ -2,7 +2,7 @@
   "tts": "espeak",
   "video": "animatic",
   "elevenlabs_voice_id": null,
-  "elevenlabs_model": "eleven_multilingual_v2",
+  "elevenlabs_model": "eleven_v4",
   "fal_video_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
   "fal_keyframe_model": "fal-ai/nano-banana-2/edit",
   "clip_seconds_options": [
@@ -27,5 +27,11 @@
       "_nota": "scena quasi tutta grafica: niente clip a pagamento, presentatore in riquadro"
     }
   },
-  "keyframe_resolution": "2K"
+  "keyframe_resolution": "2K",
+  "elevenlabs_voci_candidate": {
+    "Carmelo": "HuK8QKF35exsCh2e7fLT",
+    "Fabi": "Ha21jUwaMwdgQvqNslSM",
+    "GianP": "nNt0YcINdGadGcTx5fBM",
+    "Marco": "GcAgjAjkhWsmUd4GlPiv"
+  }
 }
