@@ -10,9 +10,9 @@
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Personaggio entra camminando in centrale termica e saluta la camera. Camera: campo medio in movimento. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Personaggio entra camminando in centrale termica e saluta la camera. Camera: campo medio in movimento. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
     "t0": 0.0,
-    "dur": 10.416,
+    "dur": 9.38,
     "speech_t0": 0.5,
-    "speech_dur": 9.116
+    "speech_dur": 8.08
   },
   {
     "id": "S02",
@@ -24,10 +24,10 @@
     "text": "Anche quando fuori fa freddo, l'aria contiene energia termica. La pompa di calore la raccoglie attraverso un circuito frigorifero.",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Cammina fino al monitor che illustra una pompa di calore aria-acqua esterna; indica l'unità. Camera: carrellata laterale. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Cammina fino al monitor che illustra una pompa di calore aria-acqua esterna; indica l'unità. Camera: carrellata laterale. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
-    "t0": 10.416,
-    "dur": 10.625,
-    "speech_t0": 10.916,
-    "speech_dur": 9.325
+    "t0": 9.38,
+    "dur": 9.14,
+    "speech_t0": 9.88,
+    "speech_dur": 7.84
   },
   {
     "id": "S03",
@@ -41,10 +41,10 @@
     "text": "Il refrigerante evapora assorbendo calore, il compressore ne aumenta pressione e temperatura, il condensatore trasferisce il calore all'impianto e la valvola di espansione chiude il ciclo.",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Presenta un diagramma tecnico vettoriale con evaporatore, compressore, condensatore, espansione. Camera: alternanza personaggio e grafica. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Presenta un diagramma tecnico vettoriale con evaporatore, compressore, condensatore, espansione. Camera: alternanza personaggio e grafica. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
-    "t0": 21.041,
-    "dur": 13.781,
-    "speech_t0": 21.541,
-    "speech_dur": 12.481
+    "t0": 18.52,
+    "dur": 12.58,
+    "speech_t0": 19.02,
+    "speech_dur": 11.28
   },
   {
     "id": "S04",
@@ -56,10 +56,10 @@
     "text": "Con l'energia elettrica necessaria al compressore, il sistema può trasferire all'edificio più energia termica di quella elettrica consumata. Il risultato dipende dalle condizioni di lavoro.",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Indica i collegamenti verso impianto di riscaldamento e spiega il bilancio energetico. Camera: piano americano. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Indica i collegamenti verso impianto di riscaldamento e spiega il bilancio energetico. Camera: piano americano. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
-    "t0": 34.822,
-    "dur": 14.076,
-    "speech_t0": 35.322,
-    "speech_dur": 12.776
+    "t0": 31.1,
+    "dur": 11.94,
+    "speech_t0": 31.6,
+    "speech_dur": 10.64
   },
   {
     "id": "S05",
@@ -71,9 +71,9 @@
     "text": "Nei prossimi episodi vedremo come dimensionarla, installarla e farla lavorare in modo efficiente. A presto!",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Si rivolge alla camera, sorride e saluta. Camera: mezzo busto. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Si rivolge alla camera, sorride e saluta. Camera: mezzo busto. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
-    "t0": 48.898,
-    "dur": 8.891,
-    "speech_t0": 49.398,
-    "speech_dur": 7.591
+    "t0": 43.04,
+    "dur": 8.02,
+    "speech_t0": 43.54,
+    "speech_dur": 6.72
   }
 ]

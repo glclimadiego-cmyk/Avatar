@@ -3,5 +3,10 @@
     "approved_at": "2026-11-15T20:42:38+00:00",
     "max_usd": 3.0,
     "note": "autorizzato da Diego in chat: test movimento, tetto 3 USD"
+  },
+  "voice_paid": {
+    "approved_at": "2026-11-15T21:05:43+00:00",
+    "max_usd": 1.0,
+    "note": "Diego ha scelto la voce Marco; crediti inclusi nell'abbonamento Creator"
   }
 }

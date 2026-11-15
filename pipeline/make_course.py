@@ -243,7 +243,7 @@ def cmd_build(a):
     # 4) render
     actor = rd.Actor(out / "sprites", project / "assets" / "avatar_3d_approvato.png")
     animatic = not any((clips / f"{s['id']}.mp4").exists() for s in tl)
-    badge = "ANIMATIC - personaggio provvisorio, voce sintetica" if animatic else None
+    badge = ("ANIMATIC - personaggio provvisorio" + (", voce sintetica" if tts == "espeak" else "")) if animatic else None
     name = "test.mp4" if a.test else "pilot.mp4"
     mp4 = out / name
     only = {tl[0]["id"]} if a.test else None
@@ -280,8 +280,9 @@ def write_report(out, sb, cfg, tl, tts, video, animatic, checks, errors, led, mp
          "## Stato", ""]
     if animatic:
         L += ["**ANIMATIC DI CONTROLLO — NON è il video finale.** Personaggio = pose statiche ritagliate dalla tavola approvata "
-              "(spostate e alternate, senza camminata né labiale reali); voce = sintesi offline espeak-ng segnaposto. "
-              "Servono per verificare tempi, grafica tecnica, sottotitoli e montaggio.", ""]
+              "(spostate e alternate, senza camminata né labiale reali); voce = "
+              + ("sintesi offline espeak-ng segnaposto. " if tts == "espeak" else f"{tts} ({cfg.get('elevenlabs_voice_name', '')}). ")
+              + "Servono per verificare tempi, grafica tecnica, sottotitoli e montaggio.", ""]
     L += ["## Verifiche automatiche sul file", ""] + [f"- [{'x' if ok else ' '}] {k}" for k, ok in checks.items()] + [""]
     L += ["## Timeline (adattata alla durata reale della voce)", "", "| Scena | Inizio | Durata | Layout | Testo |", "|---|---|---|---|---|"]
     for s in tl:

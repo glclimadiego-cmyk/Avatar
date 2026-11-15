@@ -33,3 +33,13 @@
 {"stage": "build_start", "tts": "espeak", "video": "fal", "test": true, "ts": "2026-11-15T20:43:44+00:00"}
 {"stage": "clip", "scene": "S01", "service": "fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video", "approval": "test_clip", "seconds": 10, "est_cost_usd": 0.7, "status": "ok", "ts": "2026-11-15T20:46:01+00:00"}
 {"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T20:46:17+00:00"}
+{"stage": "approval", "key": "voice_paid", "max_usd": 1.0, "note": "Diego ha scelto la voce Marco; crediti inclusi nell'abbonamento Creator", "ts": "2026-11-15T21:05:43+00:00"}
+{"stage": "build_start", "tts": "elevenlabs", "video": "animatic", "test": false, "ts": "2026-11-15T21:05:43+00:00"}
+{"stage": "voice", "service": "elevenlabs", "approval": "voice_paid", "chars": 134, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T21:05:46+00:00"}
+{"stage": "voice", "service": "elevenlabs", "approval": "voice_paid", "chars": 130, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T21:05:48+00:00"}
+{"stage": "voice", "service": "elevenlabs", "approval": "voice_paid", "chars": 188, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T21:05:52+00:00"}
+{"stage": "voice", "service": "elevenlabs", "approval": "voice_paid", "chars": 189, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T21:05:55+00:00"}
+{"stage": "voice", "service": "elevenlabs", "approval": "voice_paid", "chars": 107, "est_cost_usd": 0.0, "status": "ok", "ts": "2026-11-15T21:05:57+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1275, "duration": 51.06, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~51.1s (misurata 51.06s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T21:07:03+00:00"}
+{"stage": "build_start", "tts": "elevenlabs", "video": "animatic", "test": false, "ts": "2026-11-15T21:07:21+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1275, "duration": 51.06, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~51.1s (misurata 51.06s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T21:08:28+00:00"}
