@@ -32,7 +32,7 @@ DEFAULT_CFG = {
     "elevenlabs_voice_id": None,
     "elevenlabs_model": "eleven_multilingual_v2",
     "fal_video_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
-    "fal_keyframe_model": "fal-ai/nano-banana/edit",
+    "fal_keyframe_model": "fal-ai/nano-banana-2/edit",
     "clip_seconds_options": [5, 10],
     "rates": pv.DEFAULT_RATES,
     "character": ("stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, "
@@ -214,6 +214,12 @@ def cmd_build(a):
             try:
                 if not kf.exists():
                     pv.generate_keyframe(sc, refs, kf, led, cfg, approval)
+                ok_flag = kf.with_suffix(".approvato")
+                if not ok_flag.exists() and not a.keyframes_ok:
+                    print(f"[STOP] Controlla il fotogramma di partenza {kf} (volto, occhiali, abiti, niente scritte).\n"
+                          f"       Se va bene rilancia con --keyframes-ok; se no cancellalo e rilancia per rigenerarlo.")
+                    led.log(stage="stop", reason=f"revisione keyframe {sc['id']}"); return 3
+                ok_flag.write_text("ok")
                 segs = clip_seconds(8 if a.test else sc["dur"], cfg["clip_seconds_options"])
                 dest = clips / f"{sc['id']}.mp4"
                 if not dest.exists():
@@ -318,6 +324,7 @@ def main():
     p = sub.add_parser("build"); p.add_argument("--project", required=True); p.add_argument("--out", required=True)
     p.add_argument("--tts", choices=["espeak", "elevenlabs"]); p.add_argument("--video", choices=["animatic", "fal"])
     p.add_argument("--test", action="store_true", help="solo prima scena, max 8 s"); p.add_argument("--allow-draft", action="store_true")
+    p.add_argument("--keyframes-ok", action="store_true", help="fotogrammi di partenza rivisti e approvati")
     a = ap.parse_args()
     return {"services": cmd_services, "plan": cmd_plan, "approve": cmd_approve, "draft": cmd_draft, "build": cmd_build}[a.cmd](a) or 0
 

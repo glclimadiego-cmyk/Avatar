@@ -4,21 +4,21 @@
   "elevenlabs_voice_id": null,
   "elevenlabs_model": "eleven_multilingual_v2",
   "fal_video_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
-  "fal_keyframe_model": "fal-ai/nano-banana/edit",
+  "fal_keyframe_model": "fal-ai/nano-banana-2/edit",
   "clip_seconds_options": [
     5,
     10
   ],
   "rates": {
-    "_nota": "Tariffe INDICATIVE da verificare sul listino prima di approvare",
-    "fal_video_usd_per_s": 0.14,
-    "fal_keyframe_usd_per_image": 0.04,
+    "_nota": "fal.ai: listino ufficiale 2026-11-15. ElevenLabs: stima da verificare",
+    "fal_video_usd_per_s": 0.07,
+    "fal_keyframe_usd_per_image": 0.12,
     "elevenlabs_usd_per_1k_chars": 0.17
   },
   "test_scene": {
     "action": "the character walks from left to right across a clean boiler room, stops, turns toward camera, then points with his right hand at a small demonstration model of an air-to-water heat pump outdoor unit standing on a low bench",
     "camera": "medium wide shot, slow lateral tracking",
-    "keyframe_prompt": "Place exactly this character (identical face, dark-blue rectangular glasses, beard, stocky body, navy polo, dark grey work trousers with orange-trimmed cargo pockets, safety shoes) standing at the left of a clean boiler room with red and blue pipes, full body, side view walking to the right. On a low bench at the right: a small demonstration model of an air-to-water heat pump outdoor unit (white box with round fan grille), clearly a display model. Pixar-like 3D, soft warm light, 16:9. No text, no logos, no brand marks.",
+    "keyframe_prompt": "Use the FIRST image (character sheet) for the character: same face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, navy polo shirt (plain, no logo), dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces. Use the SECOND image only as style and lighting reference for the boiler room (pipes, tanks, warm light); do NOT copy its monitor, its text or its person. Scene: wide 16:9 shot of a clean boiler room; the character stands full body on the left third, walking toward the right, seen in three-quarter side view. On a low bench at the right third: a small demonstration model of an air-to-water heat pump outdoor unit (white box with one round fan grille). No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light.",
     "motion_prompt": "The man walks naturally from left to right with a steady walk cycle, stops beside the bench, turns his body toward the camera, smiles and points with his right index finger at the small heat pump model. Face, glasses and clothes stay identical. Five-fingered hands. Smooth slow lateral camera tracking. No text appears."
   },
   "scene_overrides": {
@@ -26,5 +26,6 @@
       "base": "drawn",
       "_nota": "scena quasi tutta grafica: niente clip a pagamento, presentatore in riquadro"
     }
-  }
+  },
+  "keyframe_resolution": "2K"
 }

@@ -15,13 +15,13 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Tariffe INDICATIVE (USD) da verificare sul listino prima di approvare.
-# Fonti consultate il 2026-11-15 (siti terzi, non il listino ufficiale):
-# Kling 2.5 Turbo Pro i2v su fal ~0.07 $/s; Kling 3.0 Turbo Pro ~0.14 $/s;
-# ElevenLabs Multilingual v2: 0.05-0.17 $/1000 caratteri a seconda della fonte.
+# Tariffe (USD). fal.ai: listino ufficiale letto il 2026-11-15 da fal.ai/models/<id>/llms.txt
+#   Kling 2.5 Turbo Pro i2v: 0.35 $ per 5 s, 0.07 $/s  -> 0.07 $/s
+#   Nano Banana 2 edit: 0.08 $/immagine a 1K, x1.5 a 2K -> 0.12 $
+# ElevenLabs: stima da siti terzi (0.05-0.17 $/1000 caratteri), da verificare.
 DEFAULT_RATES = {
-    "fal_video_usd_per_s": 0.14,
-    "fal_keyframe_usd_per_image": 0.04,
+    "fal_video_usd_per_s": 0.07,
+    "fal_keyframe_usd_per_image": 0.12,
     "elevenlabs_usd_per_1k_chars": 0.17,
 }
 
@@ -130,9 +130,15 @@ def tts(provider: str, text: str, out_wav: Path, ledger: Ledger, cfg: dict) -> f
 # --------------------------------------------------------------------------
 # fal.ai (coda asincrona): keyframe (image edit) e image-to-video
 # --------------------------------------------------------------------------
-def _data_uri(p: Path) -> str:
-    mime = "image/png" if p.suffix.lower() == ".png" else "image/jpeg"
-    return f"data:{mime};base64," + base64.b64encode(p.read_bytes()).decode()
+def _data_uri(p: Path, max_side: int = 2048) -> str:
+    """Immagine -> data URI JPEG ridimensionato (meno dati inviati, stessa resa)."""
+    import io
+    from PIL import Image
+    im = Image.open(p).convert("RGB")
+    im.thumbnail((max_side, max_side))
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=92)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
 def _fal_run(model: str, payload: dict, poll_s=5, timeout_s=1200) -> dict:
@@ -176,10 +182,11 @@ def concat_clips(parts: list[Path], dest: Path):
 def generate_keyframe(scene: dict, refs: list[Path], dest: Path, ledger: Ledger, cfg: dict, approval: str):
     est = cfg["rates"]["fal_keyframe_usd_per_image"]
     ledger.require(approval, est, f"keyframe {scene['id']}")
-    model = cfg.get("fal_keyframe_model", "fal-ai/nano-banana/edit")
+    model = cfg.get("fal_keyframe_model", "fal-ai/nano-banana-2/edit")
     try:
         res = _fal_run(model, {"prompt": scene["keyframe_prompt"], "image_urls": [_data_uri(p) for p in refs],
-                               "num_images": 1, "output_format": "png"})
+                               "num_images": 1, "output_format": "png", "aspect_ratio": "16:9",
+                               "resolution": cfg.get("keyframe_resolution", "2K")})
         _download(res["images"][0]["url"], dest)
     except Exception as e:
         ledger.log(stage="keyframe", scene=scene["id"], service=f"fal:{model}", approval=approval, status="error", error=str(e)[:400])
