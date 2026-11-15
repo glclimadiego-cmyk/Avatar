@@ -336,7 +336,7 @@ def main():
     sub.add_parser("services")
     p = sub.add_parser("plan"); p.add_argument("--project", required=True); p.add_argument("--out", required=True)
     p = sub.add_parser("approve"); p.add_argument("--out", required=True); p.add_argument("--key", required=True,
-                                                                                         choices=["test_clip", "full_generation", "voice_paid"])
+                                                                                         choices=["test_clip", "full_generation", "voice_paid", "clip_pack"])
     p.add_argument("--max-usd", type=float, required=True); p.add_argument("--note")
     p = sub.add_parser("draft"); p.add_argument("--docs", nargs="+", required=True); p.add_argument("--project", required=True)
     p.add_argument("--seconds", type=int, default=60)
