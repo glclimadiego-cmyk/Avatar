@@ -108,9 +108,13 @@ def tts(provider: str, text: str, out_wav: Path, ledger: Ledger, cfg: dict) -> f
         ledger.require("voice_paid", est, "voce ElevenLabs")
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128"
         try:
-            audio, _ = _http("POST", url, {"xi-api-key": key, "Accept": "audio/mpeg"},
-                             {"text": text, "model_id": cfg.get("elevenlabs_model", "eleven_multilingual_v2"),
-                              "language_code": "it"})
+            model = cfg.get("elevenlabs_model", "eleven_multilingual_v2")
+            body = {"text": text, "model_id": model,
+                    "voice_settings": cfg.get("elevenlabs_voice_settings",
+                                              {"stability": 0.5, "similarity_boost": 0.8, "style": 0.2, "use_speaker_boost": True})}
+            if "v2_5" in model:  # solo i modelli Turbo/Flash v2.5 accettano la lingua forzata
+                body["language_code"] = "it"
+            audio, _ = _http("POST", url, {"xi-api-key": key, "Accept": "audio/mpeg"}, body)
         except urllib.error.HTTPError as e:
             ledger.log(stage="voice", service="elevenlabs", approval="voice_paid", status="error", error=f"{e.code} {e.read()[:300]!r}")
             raise
