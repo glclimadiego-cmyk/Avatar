@@ -1,11 +1,9 @@
 # Render report — Pompa di calore - pilota 3D cartoon
 
-Generato: 2026-11-15T20:05:36  
+Generato: 2026-11-15T20:46:17  
 File: `test.mp4`
 
 ## Stato
-
-**ANIMATIC DI CONTROLLO — NON è il video finale.** Personaggio = pose statiche ritagliate dalla tavola approvata (spostate e alternate, senza camminata né labiale reali); voce = sintesi offline espeak-ng segnaposto. Servono per verificare tempi, grafica tecnica, sottotitoli e montaggio.
 
 ## Verifiche automatiche sul file
 
@@ -34,8 +32,10 @@ Durata totale: 57.8s (obiettivo storyboard 60s; la narrazione non è stata compr
 - 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
 - 2026-11-15T19:40:44+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
 - 2026-11-15T19:40:45+00:00 voice  — espeak-ng (locale) — ok — 0.0 USD 
+- 2026-11-15T20:43:01+00:00 keyframe S01 — fal:fal-ai/nano-banana-2/edit — ok — 0.12 USD 
+- 2026-11-15T20:46:01+00:00 clip S01 — fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video — ok — 0.7 USD 
 
-Spesa stimata cumulativa: 0.00 USD
+Spesa stimata cumulativa: 0.82 USD
 
 ## Errori / avvisi
 
@@ -43,10 +43,10 @@ Spesa stimata cumulativa: 0.00 USD
 
 ## Criteri di accettazione (verifica umana)
 
-- [ ] coerenza volto e occhiali — N/A nell'animatic (immagine approvata)
-- [ ] camminata fluida — NON presente nell'animatic: richiede clip image-to-video
-- [ ] mani senza deformazioni evidenti — N/A animatic
-- [ ] sincronizzazione labiale accettabile — NON presente: serve lip-sync (clip o servizio dedicato)
+- [ ] coerenza volto e occhiali — da controllare clip per clip
+- [ ] camminata fluida — da controllare
+- [ ] mani senza deformazioni evidenti — da controllare
+- [ ] sincronizzazione labiale accettabile — da controllare
 - [ ] schemi tecnici corretti — generati da codice (graphics.py): rileggere
 - [ ] testi senza errori — testi solo da codice/copione: rileggere
 

@@ -30,3 +30,6 @@
 {"stage": "build_start", "tts": "espeak", "video": "fal", "test": true, "ts": "2026-11-15T20:42:38+00:00"}
 {"stage": "keyframe", "scene": "S01", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "test_clip", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T20:43:01+00:00"}
 {"stage": "stop", "reason": "revisione keyframe S01", "ts": "2026-11-15T20:43:01+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "fal", "test": true, "ts": "2026-11-15T20:43:44+00:00"}
+{"stage": "clip", "scene": "S01", "service": "fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video", "approval": "test_clip", "seconds": 10, "est_cost_usd": 0.7, "status": "ok", "ts": "2026-11-15T20:46:01+00:00"}
+{"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T20:46:17+00:00"}
