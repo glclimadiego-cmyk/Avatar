@@ -213,7 +213,10 @@ def cmd_build(a):
             kf = out / "keyframes" / f"{sc['id']}.png"
             try:
                 if not kf.exists():
-                    pv.generate_keyframe(sc, refs, kf, led, cfg, approval)
+                    # continuità: dopo la prima scena il riferimento di ambiente è il keyframe approvato della prima
+                    first_kf = out / "keyframes" / f"{tl[0]['id']}.png"
+                    sc_refs = [refs[0], first_kf] if sc["id"] != tl[0]["id"] and first_kf.with_suffix(".approvato").exists() else refs
+                    pv.generate_keyframe(sc, sc_refs, kf, led, cfg, approval)
                 ok_flag = kf.with_suffix(".approvato")
                 if not ok_flag.exists() and not a.keyframes_ok:
                     print(f"[STOP] Controlla il fotogramma di partenza {kf} (volto, occhiali, abiti, niente scritte).\n"

@@ -26,6 +26,21 @@
     "S03": {
       "base": "drawn",
       "_nota": "scena quasi tutta grafica: niente clip a pagamento, presentatore in riquadro"
+    },
+    "S01": {
+      "motion_prompt": "The man walks forward a few steps with a natural walk cycle, slows down, stops, turns toward the camera, smiles warmly and gives a friendly wave with his right hand, then lowers it. Face, glasses and clothes stay identical, five-fingered hands. Slow gentle camera push-in. No text appears."
+    },
+    "S02": {
+      "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: medium-wide shot in the same boiler room; the character stands full body in the left half of the frame, three-quarter view, about to walk toward the right. The upper right third of the frame is a plain, empty, light-coloured wall area with nothing on it (reserved for a graphic added later). No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
+      "motion_prompt": "The man walks to the right with a natural walk cycle, stops in the middle of the frame, turns slightly toward the camera and gestures with his open right hand toward the empty upper-right area of the wall, as if presenting something there, while talking. Smooth slow lateral tracking camera. Face and glasses stay identical. No text, no screens appear."
+    },
+    "S04": {
+      "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: American shot (from mid-thigh up) of the character standing in the left third of the frame, facing the camera, friendly expression, in the same boiler room. The right two thirds of the frame show the softly blurred boiler room background with red and blue pipes, without people (space reserved for a graphic added later). No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
+      "motion_prompt": "The man talks to the camera with calm, natural hand gestures, nods slightly, then points with his right hand toward the right side of the frame and looks back at the camera. Static camera. Face, glasses and hands stay consistent. No text appears."
+    },
+    "S05": {
+      "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: medium close-up (chest up) of the character centered in the frame, looking straight at the camera with a warm smile, the same boiler room softly blurred behind him. No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
+      "motion_prompt": "The man talks warmly to the camera with small nods, smiles, then raises his right hand and waves goodbye. Static camera with a very slow push-in. Face and glasses stay identical. No text appears."
     }
   },
   "keyframe_resolution": "2K",
