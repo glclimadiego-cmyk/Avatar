@@ -18,3 +18,11 @@
 {"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T19:49:44+00:00"}
 {"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T19:49:44+00:00"}
 {"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T19:49:59+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T20:02:08+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T20:03:35+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T20:03:35+00:00"}
+{"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T20:03:50+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": false, "ts": "2026-11-15T20:04:00+00:00"}
+{"stage": "render", "file": "output/pilota/pilot.mp4", "frames": 1445, "duration": 57.8, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~57.8s (misurata 57.80s)": true, "sottotitoli SRT incorporati": true}, "status": "ok", "ts": "2026-11-15T20:05:20+00:00"}
+{"stage": "build_start", "tts": "espeak", "video": "animatic", "test": true, "ts": "2026-11-15T20:05:21+00:00"}
+{"stage": "render", "file": "output/pilota/test.mp4", "frames": 200, "duration": 8.0, "checks": {"risoluzione 1920x1080": true, "25 fps": true, "video H.264": true, "audio AAC": true, "durata ~8.0s (misurata 8.00s)": true}, "status": "ok", "ts": "2026-11-15T20:05:36+00:00"}

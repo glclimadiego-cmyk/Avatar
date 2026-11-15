@@ -140,11 +140,12 @@ class Actor:
         frame.alpha_composite(sp, (int(cx - sp.width / 2), int(feet_y - sp.height - bob)))
 
     def shadow(self, frame, cx, feet_y, w):
-        sh = Image.new("RGBA", (int(w), 40), (0, 0, 0, 0))
         from PIL import ImageDraw, ImageFilter
-        ImageDraw.Draw(sh).ellipse([0, 5, w, 35], fill=(0, 0, 0, 90))
-        sh = sh.filter(ImageFilter.GaussianBlur(6))
-        frame.alpha_composite(sh, (int(cx - w / 2), int(feet_y - 22)))
+        pad = 30
+        sh = Image.new("RGBA", (int(w) + 2 * pad, 26 + 2 * pad), (0, 0, 0, 0))
+        ImageDraw.Draw(sh).ellipse([pad, pad, pad + w, pad + 26], fill=(0, 0, 0, 80))
+        sh = sh.filter(ImageFilter.GaussianBlur(9))
+        frame.alpha_composite(sh, (int(cx - w / 2 - pad), int(feet_y - 16 - pad)))
 
 
 def walk_bob(t, step_hz=1.9):

@@ -41,6 +41,20 @@ def _cutout(img: Image.Image, thr: int = 236) -> Image.Image:
                         seen[ny, nx] = True; q.append((ny, nx))
             if edge or len(comp) > 600:
                 ys, xs = zip(*comp); bg[list(ys), list(xs)] = True
+    # ombra a terra della tavola (grigio chiaro poco saturo) nella fascia dei piedi -> trasparente
+    ys = np.nonzero(~bg.all(axis=1))[0]
+    foot0 = int(ys.max() - 0.13 * (ys.max() - ys.min())) if len(ys) else h
+    chroma = a.max(axis=2) - a.min(axis=2)
+    shadow = (a.min(axis=2) >= 150) & (chroma < 16)
+    shadow[:foot0] = False
+    # solo le zone d'ombra collegate allo sfondo (non i riflessi chiari sulle suole)
+    q = deque((y, x) for y, x in zip(*np.nonzero(bg[foot0:])) for y in [y + foot0])
+    while q:
+        y, x = q.popleft()
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ny, nx = y + dy, x + dx
+            if foot0 <= ny < h and 0 <= nx < w and shadow[ny, nx] and not bg[ny, nx]:
+                bg[ny, nx] = True; q.append((ny, nx))
     alpha = Image.fromarray(np.where(bg, 0, 255).astype(np.uint8)).filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(0.8))
     out = img.convert("RGBA"); out.putalpha(alpha)
     return out.crop(out.getbbox())

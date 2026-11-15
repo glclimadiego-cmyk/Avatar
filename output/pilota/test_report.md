@@ -1,6 +1,6 @@
 # Render report — Pompa di calore - pilota 3D cartoon
 
-Generato: 2026-11-15T19:49:59  
+Generato: 2026-11-15T20:05:36  
 File: `test.mp4`
 
 ## Stato
