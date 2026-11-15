@@ -53,3 +53,6 @@
 {"stage": "keyframe", "scene": "S04", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "full_generation", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T21:11:58+00:00"}
 {"stage": "stop", "reason": "revisione keyframe S02, S04, S05", "ts": "2026-11-15T21:11:58+00:00"}
 {"stage": "build_start", "tts": "elevenlabs", "video": "fal", "test": false, "ts": "2026-11-15T21:12:29+00:00"}
+{"stage": "clip", "scene": "S01", "service": "fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video", "approval": "full_generation", "seconds": 10, "est_cost_usd": 0.7, "status": "ok", "ts": "2026-11-15T21:15:11+00:00"}
+{"stage": "clip", "scene": "S02", "service": "fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video", "approval": "full_generation", "seconds": 10, "est_cost_usd": 0.7, "status": "ok", "ts": "2026-11-15T21:17:16+00:00"}
+{"stage": "clip", "scene": "S04", "service": "fal:fal-ai/kling-video/v2.5-turbo/pro/image-to-video", "approval": "full_generation", "seconds": 10, "est_cost_usd": 0.7, "status": "ok", "ts": "2026-11-15T21:19:11+00:00"}
