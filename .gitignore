@@ -5,3 +5,7 @@ output/**/clips/
 output/**/keyframes/
 output/**/*.wav
 VideoCorsi_*.zip
+output/clip_pack/keyframes/
+output/clip_pack/scartati_v1/
+output/clip_pack/clips_verdi/
+output/clip_pack/clips_alfa/

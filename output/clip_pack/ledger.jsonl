@@ -1,0 +1,17 @@
+{"stage": "approval", "key": "clip_pack", "max_usd": 15.0, "note": "autorizzato da Diego in chat: pacchetto clip, tetto 15 USD", "ts": "2026-11-15T22:15:50+00:00"}
+{"stage": "keyframe", "scene": "cammina", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:16:17+00:00"}
+{"stage": "keyframe", "scene": "parla", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:16:39+00:00"}
+{"stage": "keyframe", "scene": "indica", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:17:06+00:00"}
+{"stage": "keyframe", "scene": "saluta", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:17:27+00:00"}
+{"stage": "keyframe", "scene": "conta", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:17:49+00:00"}
+{"stage": "keyframe", "scene": "telefono", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:18:17+00:00"}
+{"stage": "keyframe", "scene": "pollice", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:18:38+00:00"}
+{"stage": "keyframe", "scene": "attenzione", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:19:00+00:00"}
+{"stage": "keyframe", "scene": "parla", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:19:53+00:00"}
+{"stage": "keyframe", "scene": "cammina", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:20:17+00:00"}
+{"stage": "keyframe", "scene": "indica", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:20:38+00:00"}
+{"stage": "keyframe", "scene": "saluta", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:21:05+00:00"}
+{"stage": "keyframe", "scene": "conta", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:21:22+00:00"}
+{"stage": "keyframe", "scene": "telefono", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:21:49+00:00"}
+{"stage": "keyframe", "scene": "pollice", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:22:10+00:00"}
+{"stage": "keyframe", "scene": "attenzione", "service": "fal:fal-ai/nano-banana-2/edit", "approval": "clip_pack", "est_cost_usd": 0.12, "status": "ok", "ts": "2026-11-15T22:22:27+00:00"}

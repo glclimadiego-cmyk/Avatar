@@ -21,10 +21,12 @@ OUT = ROOT / "output" / "clip_pack"
 SHEET = ROOT / "pilota" / "assets" / "avatar_3d_approvato.png"
 STYLE_REF = ROOT / "output" / "pilota" / "keyframes" / "S05.png"  # resa 3D approvata nel pilota
 
-CHAR = ("Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, "
-        "dark-blue rectangular glasses, salt-and-pepper beard, stocky adult build with normal proportions (not chibi), "
-        "plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, black belt, "
-        "dark safety shoes with orange laces, black smartwatch. Use the SECOND image only for the 3D render style and lighting. ")
+CHAR = ("Use the reference image (character sheet) for the character and copy the FULL-BODY figures of the sheet exactly: "
+        "identical face, bald head with short dark hair on the sides, glasses with DARK BLUE rectangular frames (blue, not black), "
+        "salt-and-pepper beard, broad-shouldered adult man. BODY PROPORTIONS EXACTLY AS IN THE SHEET: realistic adult proportions, "
+        "head about one seventh of the total body height, long legs, the belt at about half of the body height; NOT chibi, "
+        "NOT big-headed, NOT short-legged, NOT a toy figure. Plain navy polo shirt without logo, dark grey work trousers with "
+        "orange-trimmed cargo pockets and black knee pads, black belt, dark safety shoes with orange laces, black smartwatch. ")
 GREEN = (" Background: a perfectly uniform flat chroma-key green (#00B140) studio backdrop filling the whole frame, evenly lit, "
          "no floor line, no shadows on the background, no props, no text. Full body visible with some margin around him, "
          "centered. Pixar-like 3D render, soft front light, 16:9.")
@@ -75,7 +77,7 @@ def keyframes(ok_flag=False):
         kf = kdir / f"{name}.png"
         if not kf.exists():
             sc = {"id": name, "keyframe_prompt": CHAR + p["kf"] + GREEN}
-            pv.generate_keyframe(sc, [SHEET, STYLE_REF], kf, led, c, "clip_pack")
+            pv.generate_keyframe(sc, [SHEET], kf, led, c, "clip_pack")
             print("keyframe", name, "ok")
     if ok_flag:
         for name in POSES:
