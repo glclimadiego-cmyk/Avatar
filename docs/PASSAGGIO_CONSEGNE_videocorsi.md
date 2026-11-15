@@ -1,7 +1,16 @@
 # Passaggio di consegne — Modulo "Video Corsi" per il gestionale
 
 Documento per chi prosegue il lavoro nello **sviluppo del gestionale** (persona o sessione Claude Code).
-Stato al 15/11/2026. Repository: `glclimadiego-cmyk/Avatar`, ramo `claude/new-session-frmbxv`.
+Stato al 15/11/2026.
+
+**Dove sono i file**
+- **Google Drive** di Diego, cartella `Videocorsi / Pompe di calore / 01 Come funziona`:
+  - `Avatar_progetto_completo.zip`: tutto il progetto (codice `pipeline/`, progetto `pilota/`, risultati `output/`, questo documento);
+  - `sorgenti_pilota.zip`: clip originali, fotogrammi e tracce voce;
+  - `pilot.mp4` e `pilot.srt`: il video finale.
+- Copia di riferimento nel repository GitHub `glclimadiego-cmyk/Avatar`, ramo `claude/new-session-frmbxv`.
+
+Nel resto del documento i percorsi (`pipeline/…`, `output/pilota/…`) sono quelli dentro `Avatar_progetto_completo.zip`.
 
 ---
 
@@ -46,8 +55,8 @@ Scene del pilota: S01 ingresso e saluto (0:00) · S02 verso la pompa di calore (
 | `graphics.py` | grafica tecnica vettoriale: **tutte le scritte del video nascono qui**, mai nelle clip AI |
 | `sprites.py` | ritaglio pose dalla tavola (solo per l'animatic di controllo gratuito) |
 
-### ⚠ Materiale NON ancora archiviato
-Questi file esistono **solo sul computer remoto della sessione Claude** e vanno spostati sul server prima che venga cancellato:
+### Materiale sorgente (in `sorgenti_pilota.zip` su Drive)
+Questi file non sono nel repository GitHub (troppo pesanti). Sono in `sorgenti_pilota.zip` e vanno copiati sul server nella cartella `sorgenti/` dell'episodio:
 
 | Cartella | Contenuto | Peso | A cosa serve |
 |---|---|---|---|
@@ -55,7 +64,7 @@ Questi file esistono **solo sul computer remoto della sessione Claude** e vanno 
 | `output/pilota/keyframes/` | fotogrammi di partenza approvati (PNG 2K) | 21 MB | rigenerare una clip con lo stesso inizio |
 | `output/pilota/voice/` | tracce voce per scena (WAV) | 10 MB | rimontare senza rigenerare la voce |
 
-Sono esclusi da Git tramite `.gitignore`. Decisione pendente: spostarli su GitHub (cartella `archivio`), su Google Drive o direttamente sul server.
+Sono esclusi da Git tramite `.gitignore`. Dopo lo zip va ripristinata la stessa struttura (`output/pilota/clips`, `keyframes`, `voice`) per rimontare senza costi.
 
 ---
 
@@ -183,8 +192,7 @@ Il servizio di produzione può essere avviato dal gestionale come coda di lavori
 2. Il modulo va **dentro** il gestionale o è un'app separata con lo stesso accesso?
 3. Server e VPS: fornitore, accesso (SSH o pannello), chi li gestisce, spazio disco disponibile. Si stimano circa 300 MB per episodio con i sorgenti, 30 MB senza.
 4. Chi guarda i video: solo i tecnici interni, oppure anche clienti e corsisti esterni?
-5. Dove mettere **subito** il materiale sorgente del pilota (vedi sezione 2): GitHub, Google Drive o server.
-6. Logo aziendale sulla polo dell'avatar: serve un file del logo (SVG o PNG) da sovrapporre in grafica.
+5. Logo aziendale sulla polo dell'avatar: serve un file del logo (SVG o PNG) da sovrapporre in grafica.
 
 ---
 
@@ -200,6 +208,6 @@ Il servizio di produzione può essere avviato dal gestionale come coda di lavori
 
 ## 9. Testo pronto da incollare nella sessione di sviluppo del gestionale
 
-> Devo aggiungere al gestionale un modulo "Video Corsi" per archiviare e mostrare i videocorsi 3D prodotti con la pipeline del repository `glclimadiego-cmyk/Avatar` (ramo `claude/new-session-frmbxv`). Leggi prima `docs/PASSAGGIO_CONSEGNE_videocorsi.md` in quel repository: contiene lo stato attuale, la pipeline, gli account, i costi e una proposta di architettura (cartelle, tabelle, riproduzione video, flusso di approvazione).
+> Devo aggiungere al gestionale un modulo "Video Corsi" per archiviare e mostrare i videocorsi 3D che produco con una pipeline già pronta. Sul mio Google Drive, cartella "Videocorsi / Pompe di calore / 01 Come funziona", trovi il documento "Passaggio di consegne – Video Corsi" (leggilo per primo), lo zip con tutto il progetto e il codice (`Avatar_progetto_completo.zip`), lo zip con il materiale sorgente e il video finale. Il documento contiene lo stato attuale, la pipeline, gli account, i costi e una proposta di architettura (cartelle, tabelle, riproduzione video, flusso di approvazione).
 > L'archivio dei file va sul nostro server, con copia sulla VPS. Prima di scrivere codice, guarda come è fatto il gestionale e proponimi dove inserire il modulo, il modello dati e come servire i video in modo protetto. Fammi le domande della sezione 7 a cui non trovi risposta nel codice.
-> Primo traguardo: il pilota "La pompa di calore" (`output/pilota/pilot.mp4` + `pilot.srt`) visibile nell'app, con elenco corsi, scheda episodio e player con sottotitoli.
+> Primo traguardo: il pilota "La pompa di calore" (`pilot.mp4` + `pilot.srt` dalla cartella Drive) visibile nell'app, con elenco corsi, scheda episodio e player con sottotitoli.
