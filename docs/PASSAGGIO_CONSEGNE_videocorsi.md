@@ -5,12 +5,12 @@ Stato al 15/11/2026.
 
 **Dove sono i file**
 - **Google Drive** di Diego, cartella `Videocorsi / Pompe di calore / 01 Come funziona`:
-  - `Avatar_progetto_completo.zip`: tutto il progetto (codice `pipeline/`, progetto `pilota/`, risultati `output/`, questo documento);
-  - `sorgenti_pilota.zip`: clip originali, fotogrammi e tracce voce;
-  - `pilot.mp4` e `pilot.srt`: il video finale.
-- Copia di riferimento nel repository GitHub `glclimadiego-cmyk/Avatar`, ramo `claude/new-session-frmbxv`.
+  - questo documento e «Specifiche – Deposito file e app Video Corsi» (le istruzioni operative per il gestionale);
+  - `Avatar_progetto_leggero.zip`: codice `pipeline/`, progetto `pilota/` (copione, storyboard, configurazione, tavola avatar), report e registro costi in `output/pilota/`;
+  - `pilot.srt`: i sottotitoli.
+- **Non su Drive** (il collegamento da cui sono stati caricati accetta file di pochi MB): il **video finale** `pilot.mp4` (22 MB) e i **sorgenti** (clip, fotogrammi e voce, circa 260 MB). Verranno consegnati sul server con l'API di deposito descritta nelle Specifiche. Il video finale è comunque anche nel repository GitHub `glclimadiego-cmyk/Avatar`, ramo `claude/new-session-frmbxv`, in `output/pilota/pilot.mp4`.
 
-Nel resto del documento i percorsi (`pipeline/…`, `output/pilota/…`) sono quelli dentro `Avatar_progetto_completo.zip`.
+Nel resto del documento i percorsi (`pipeline/…`, `output/pilota/…`) sono quelli del progetto (dentro `Avatar_progetto_leggero.zip`).
 
 ---
 
@@ -55,8 +55,8 @@ Scene del pilota: S01 ingresso e saluto (0:00) · S02 verso la pompa di calore (
 | `graphics.py` | grafica tecnica vettoriale: **tutte le scritte del video nascono qui**, mai nelle clip AI |
 | `sprites.py` | ritaglio pose dalla tavola (solo per l'animatic di controllo gratuito) |
 
-### Materiale sorgente (in `sorgenti_pilota.zip` su Drive)
-Questi file non sono nel repository GitHub (troppo pesanti). Sono in `sorgenti_pilota.zip` e vanno copiati sul server nella cartella `sorgenti/` dell'episodio:
+### Materiale sorgente (da depositare sul server)
+Questi file non sono né su GitHub né su Drive (troppo pesanti). Restano nella sessione di produzione finché non saranno depositati sul server tramite l'API (vedi Specifiche), nella cartella `sorgenti/` dell'episodio:
 
 | Cartella | Contenuto | Peso | A cosa serve |
 |---|---|---|---|
@@ -64,7 +64,7 @@ Questi file non sono nel repository GitHub (troppo pesanti). Sono in `sorgenti_p
 | `output/pilota/keyframes/` | fotogrammi di partenza approvati (PNG 2K) | 21 MB | rigenerare una clip con lo stesso inizio |
 | `output/pilota/voice/` | tracce voce per scena (WAV) | 10 MB | rimontare senza rigenerare la voce |
 
-Sono esclusi da Git tramite `.gitignore`. Dopo lo zip va ripristinata la stessa struttura (`output/pilota/clips`, `keyframes`, `voice`) per rimontare senza costi.
+Sono esclusi da Git tramite `.gitignore`. Per rimontare senza costi va ripristinata la stessa struttura (`output/pilota/clips`, `keyframes`, `voice`).
 
 ---
 
@@ -208,6 +208,6 @@ Il servizio di produzione può essere avviato dal gestionale come coda di lavori
 
 ## 9. Testo pronto da incollare nella sessione di sviluppo del gestionale
 
-> Devo aggiungere al gestionale un modulo "Video Corsi" per archiviare e mostrare i videocorsi 3D che produco con una pipeline già pronta. Sul mio Google Drive, cartella "Videocorsi / Pompe di calore / 01 Come funziona", trovi il documento "Passaggio di consegne – Video Corsi" (leggilo per primo), lo zip con tutto il progetto e il codice (`Avatar_progetto_completo.zip`), lo zip con il materiale sorgente e il video finale. Il documento contiene lo stato attuale, la pipeline, gli account, i costi e una proposta di architettura (cartelle, tabelle, riproduzione video, flusso di approvazione).
+> Devo aggiungere al gestionale un modulo "Video Corsi" per archiviare e mostrare i videocorsi 3D che produco con una pipeline già pronta. Sul mio Google Drive, cartella "Videocorsi / Pompe di calore / 01 Come funziona", trovi «Passaggio di consegne – Video Corsi» (contesto) e «Specifiche – Deposito file e app Video Corsi» (cosa costruire: prima l'API di deposito file, poi l'app), più lo zip con il codice e il progetto.
 > L'archivio dei file va sul nostro server, con copia sulla VPS. Prima di scrivere codice, guarda come è fatto il gestionale e proponimi dove inserire il modulo, il modello dati e come servire i video in modo protetto. Fammi le domande della sezione 7 a cui non trovi risposta nel codice.
-> Primo traguardo: il pilota "La pompa di calore" (`pilot.mp4` + `pilot.srt` dalla cartella Drive) visibile nell'app, con elenco corsi, scheda episodio e player con sottotitoli.
+> Primo traguardo: l'API di deposito (Parte A delle Specifiche) collaudata, con host e token da consegnarmi; poi il pilota visibile nell'app con elenco corsi, scheda episodio e player con sottotitoli.
