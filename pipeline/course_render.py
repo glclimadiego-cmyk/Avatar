@@ -43,6 +43,12 @@ CHAR_H = 860            # altezza del personaggio in pixel
 FEET_Y = 1058
 EMU_W, EMU_H = 12191695, 6858000
 
+# Regia "tutto schermo" (richiesta di Diego, 16/11/2026): la slide si ingrandisce a tutto schermo,
+# l'avatar esce di lato, le parti spiegate vengono evidenziate (riquadri, cerchi, sottolineature), poi si torna.
+REGIA_TUTTO_SCHERMO = os.environ.get("REGIA", "tutto_schermo") == "tutto_schermo"
+FONT_BOLD = "/usr/share/fonts/truetype/open-sans/OpenSans-Bold.ttf"
+ROSSO, VERDE, AMBRA = (214, 48, 39), (46, 150, 70), (181, 105, 0)
+
 EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿️‍⏰-⏿⬀-⯿]")
 
 
@@ -284,6 +290,7 @@ def timeline():
                    "speech_dur": round(vd, 3), "text": clean_sub(s["Testo pronunciato"]), "side": side,
                    "prev_side": prev_side, "walk": walk, "gesti": gesti(mov), "mov": mov,
                    "zoom": "zoom" in (s["Zoom e transizioni"] or "").lower(), "secondaria": sec,
+                   "file": s.get("Schermata o schema (file)"),
                    "avviso": bool(re.search(r"errore|avviso|allarme|rosso|impedisce", (s["Elementi da evidenziare"] or "") + " " + (s["Zoom e transizioni"] or ""), re.I)),
                    "geo": geo[n - 1]})
         prev_side = side
@@ -312,7 +319,50 @@ def side_x(side):
     return int(W * (0.85 if side == "destra" else 0.15))
 
 
+def fasi(sc):
+    """Fase tutto schermo della scena: (inizio_ingresso, inizio_uscita) o None."""
+    if not REGIA_TUTTO_SCHERMO or not sc["geo"]["pic"]:
+        return None
+    D = sc["dur"]
+    a = max(sc["walk"], LEAD) + 1.2
+    b = LEAD + sc["speech_dur"] * 0.80
+    sec = sc.get("secondaria")
+    if sec:  # la schermata secondaria arriva a vista normale
+        b = min(b, LEAD + sc["speech_dur"] * 0.62 - 0.9)
+    b = min(b, D - 2.6)
+    return (a, b) if b - a >= 3.5 else None
+
+
 def char_plan(sc, is_last):
+    f = fasi(sc)
+    if f:
+        return char_plan_regia(sc, is_last, f)
+    return char_plan_base(sc, is_last)
+
+
+def char_plan_regia(sc, is_last, f):
+    """Avatar presente prima e dopo il tutto schermo: un gesto per parte."""
+    D = sc["dur"]; x = side_x(sc["side"]); a, b = f
+    segs, t = [], 0.0
+    if sc["walk"] > 0:
+        x_from = W + 260 if sc["prev_side"] is None else side_x(sc["prev_side"])
+        segs.append((0.0, sc["walk"], "cammina", x < x_from, x_from, x)); t = sc["walk"]
+    g = list(sc["gesti"])
+    first = g[0] if g else "indica"
+    flip = lambda name: (name == "indica" and sc["side"] == "destra") or (name == "telefono" and sc["side"] == "sinistra")
+    segs.append((t, b, first, flip(first), x, x))          # durante il tutto schermo l'avatar non si vede
+    tail_walk = 2.2 if is_last else 0.0
+    second = g[-1] if len(g) > 1 else ("pollice" if "pollice" in g else "parla")
+    end_g = min(D - tail_walk, b + 0.7 + 5.0)
+    segs.append((b, end_g, second, flip(second), x, x))
+    if end_g < D - tail_walk:
+        segs.append((end_g, D - tail_walk, "parla", False, x, x))
+    if tail_walk:
+        segs.append((D - tail_walk, D, "cammina", True, x, -300))
+    return segs
+
+
+def char_plan_base(sc, is_last):
     """Segmenti (inizio, fine, posa, specchiata, x0, x1) relativi alla scena."""
     D = sc["dur"]
     x = side_x(sc["side"])
@@ -477,6 +527,9 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
         show_hl = t < sec_t + 0.5
     else:
         show_hl = True
+    f = fasi(sc)
+    if f:
+        return scene_frame_regia(sc, t, segs, f, img, is_first_of_chapter, is_last_of_chapter)
     if ng and show_hl:
         img = img.copy()
         full = slide_img(n, "full")
@@ -518,6 +571,175 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
     if is_first_of_chapter:
         fade = min(fade, t / 0.5)
     if is_last_of_chapter:
+        fade = min(fade, (D - t) / 0.6)
+    if fade < 1:
+        fr = Image.blend(Image.new("RGB", (W, H)), fr, max(0.0, fade))
+    return fr
+
+
+# --------------------------------------------------------------------------
+# Regia "tutto schermo"
+# --------------------------------------------------------------------------
+@lru_cache(maxsize=1)
+def evidenze_json():
+    f = MAT / "Asset_Grafici" / "evidenze.json"
+    return json.loads(f.read_text()) if f.exists() else {}
+
+
+def target_rect(pic):
+    """Rettangolo della slide da portare a tutto schermo (16:9 attorno alla schermata/schema)."""
+    x0, y0, x1, y1 = pic
+    pad = W * 0.012
+    x0, y0, x1, y1 = x0 - pad, y0 - pad, x1 + pad, y1 + pad
+    w, h = x1 - x0, y1 - y0
+    if w / h < W / H:
+        w2 = h * W / H; cx = (x0 + x1) / 2; x0, x1 = cx - w2 / 2, cx + w2 / 2
+    else:
+        h2 = w * H / W; cy = (y0 + y1) / 2; y0, y1 = cy - h2 / 2, cy + h2 / 2
+    # dentro la slide
+    dx = max(0, -x0) - max(0, x1 - W); dy = max(0, -y0) - max(0, y1 - H)
+    x0, x1, y0, y1 = x0 + dx, x1 + dx, y0 + dy, y1 + dy
+    if x1 - x0 > W or y1 - y0 > H:
+        return (0, 0, W, H)
+    return (x0, y0, x1, y1)
+
+
+def marcatori(sc):
+    """Riquadri da evidenziare (coordinate della slide), nell'ordine della spiegazione."""
+    geo = sc["geo"]
+    boxes = []
+    for gr in geo["groups"]:
+        b = gr[0]   # il primo è l'«Evidenza» (o il numero se c'è solo quello)
+        boxes.append(b)
+    if not boxes and geo["pic"]:
+        name = Path(str(sc.get("file") or "")).stem
+        ev = evidenze_json().get(name, {}).get("evidenze", [])
+        x0, y0, x1, y1 = geo["pic"]
+        for e in ev[:6]:
+            boxes.append((x0 + e["x"] * (x1 - x0), y0 + e["y"] * (y1 - y0), x0 + (e["x"] + e["w"]) * (x1 - x0), y0 + (e["y"] + e["h"]) * (y1 - y0)))
+    return boxes
+
+
+def lerp(a, b, k):
+    return tuple(x + (y - x) * k for x, y in zip(a, b))
+
+
+@lru_cache(maxsize=64)
+def title_band(text, width=None):
+    from PIL import ImageFont
+    f = ImageFont.truetype(FONT_BOLD, 38)
+    tw = int(f.getlength(text))
+    band = Image.new("RGBA", (tw + 70, 74), (0, 0, 0, 0))
+    d = ImageDraw.Draw(band)
+    d.rounded_rectangle([0, 0, band.width - 1, 73], radius=16, fill=(251, 248, 241, 235))
+    d.rectangle([0, 10, 8, 63], fill=AMBRA + (255,))
+    d.text((30, 37), text, font=f, fill=(150, 82, 0), anchor="lm")
+    return band
+
+
+def draw_marker(ov, box, k, color, current):
+    """Disegna un evidenziatore che si 'traccia' (k = 0..1): sottolineatura, cerchio o riquadro."""
+    d = ImageDraw.Draw(ov)
+    x0, y0, x1, y1 = box
+    w, h = x1 - x0, y1 - y0
+    alpha = 255 if current else 150
+    col = color + (alpha,)
+    lw = 7 if current else 5
+    if w / max(h, 1) > 6:                        # riga lunga e bassa: sottolineatura
+        yy = y1 + 8
+        d.line([(x0, yy), (x0 + w * k, yy)], fill=col, width=lw + 2)
+    elif w < W * 0.10 and h < H * 0.12:          # elemento piccolo: cerchio
+        cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+        rx, ry = w / 2 + 26, h / 2 + 22
+        d.arc([cx - rx, cy - ry, cx + rx, cy + ry], start=-90, end=-90 + 360 * k, fill=col, width=lw)
+    else:                                        # riquadro che si disegna lungo il perimetro
+        m = 10
+        pts = [(x0 - m, y0 - m), (x1 + m, y0 - m), (x1 + m, y1 + m), (x0 - m, y1 + m), (x0 - m, y0 - m)]
+        per = 2 * (w + h + 4 * m); L = per * k
+        for p0, p1 in zip(pts, pts[1:]):
+            seg = math.dist(p0, p1)
+            if L <= 0:
+                break
+            q = min(1, L / seg)
+            d.line([p0, (p0[0] + (p1[0] - p0[0]) * q, p0[1] + (p1[1] - p0[1]) * q)], fill=col, width=lw)
+            L -= seg
+
+
+def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch):
+    n, D = sc["n"], sc["dur"]
+    a, b = f
+    TR = 0.75
+    v = ease((t - a) / TR) * (1 - ease((t - b) / TR))      # 0 = vista normale, 1 = tutto schermo
+    groups = sc["geo"]["groups"]
+    # dopo il ritorno: compaiono anche le evidenziazioni disegnate nella slide
+    if groups and t > b:
+        img = img.copy()
+        full = slide_img(n, "full")
+        k = ease((t - b - 0.3) / 0.5)
+        for gi in range(len(groups)):
+            m = mask_img(n, gi)
+            img.paste(full, (0, 0), m if k >= 1 else m.point(lambda x, kk=k: int(x * kk)))
+    rect = target_rect(sc["geo"]["pic"])
+    R = lerp((0, 0, W, H), rect, v)
+    if v > 0.001:
+        img = img.crop(tuple(int(x) for x in R)).resize((W, H), Image.BICUBIC if v > 0.98 else Image.BILINEAR)
+    frame = img.convert("RGBA")
+    sx, sy = W / (R[2] - R[0]), H / (R[3] - R[1])
+    to_scr = lambda bx: ((bx[0] - R[0]) * sx, (bx[1] - R[1]) * sy, (bx[2] - R[0]) * sx, (bx[3] - R[1]) * sy)
+    # evidenziatori durante il tutto schermo
+    boxes = marcatori(sc)
+    if boxes and v > 0.95:
+        t0, t1 = a + TR + 0.4, b - 0.9
+        times = [t0 + (t1 - t0) * (i / max(1, len(boxes) - 1) if len(boxes) > 1 else 0.0) for i in range(len(boxes))]
+        shown = [i for i, ti in enumerate(times) if t >= ti]
+        if shown:
+            cur = shown[-1]
+            ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            # luce sulla parte spiegata: il resto si scurisce leggermente
+            sb = to_scr(boxes[cur])
+            dim = Image.new("RGBA", (W, H), (20, 16, 10, 70))
+            ImageDraw.Draw(dim).rounded_rectangle([sb[0] - 18, sb[1] - 18, sb[2] + 18, sb[3] + 18], radius=14, fill=(0, 0, 0, 0))
+            k_dim = ease((t - times[cur]) / 0.4)
+            frame.alpha_composite(dim if k_dim >= 1 else Image.blend(Image.new("RGBA", (W, H), (0, 0, 0, 0)), dim, k_dim))
+            for i in shown:
+                color = ROSSO
+                if sc["avviso"]:
+                    color = ROSSO
+                elif "pollice" in sc["gesti"] and i == len(boxes) - 1:
+                    color = VERDE
+                draw_marker(ov, to_scr(boxes[i]), ease((t - times[i]) / 0.6), color, i == cur)
+            frame.alpha_composite(ov)
+    vb = max(0.0, (v - 0.85) / 0.15)   # titolo solo a tutto schermo (durante il movimento si vede quello della slide)
+    if vb > 0:
+        band = title_band(clean_sub(str(sc["titolo"])).strip())
+        if vb < 1:
+            band = band.copy(); band.putalpha(band.getchannel("A").point(lambda x, f=vb: int(x * f)))
+        frame.alpha_composite(band, (40, 28))
+    # telefono secondario accanto all'avatar (vista normale)
+    sec = sc.get("secondaria")
+    sec_t = LEAD + sc["speech_dur"] * 0.62
+    if sec and sec.startswith("tel-") and t >= max(sec_t, b + TR):
+        card = phone_card(sec)
+        k = ease((t - max(sec_t, b + TR)) / 0.5)
+        x = int((W * 0.70 if sc["side"] == "destra" else W * 0.30) - (card.width if sc["side"] == "destra" else 0))
+        y = int(H - card.height - 40 + (1 - k) * 200)
+        if k < 1:
+            card = card.copy(); card.putalpha(card.getchannel("A").point(lambda x: int(x * k)))
+        frame.alpha_composite(card, (x, y))
+    # avatar: esce di lato mentre la slide si ingrandisce, rientra al ritorno
+    if v < 0.98:
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        draw_character(layer, sc, segs, t)
+        if v > 0:
+            off = int(v * 650) * (1 if sc["side"] == "destra" else -1)
+            layer = layer.transform(layer.size, Image.AFFINE, (1, 0, -off, 0, 1, 0))
+            layer.putalpha(layer.getchannel("A").point(lambda x: int(x * (1 - v))))
+        frame.alpha_composite(layer)
+    fr = frame.convert("RGB")
+    fade = 1.0
+    if is_first:
+        fade = min(fade, t / 0.5)
+    if is_last_ch:
         fade = min(fade, (D - t) / 0.6)
     if fade < 1:
         fr = Image.blend(Image.new("RGB", (W, H)), fr, max(0.0, fade))
