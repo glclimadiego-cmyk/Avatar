@@ -9,6 +9,7 @@ Screenshot_App/, voce clonata ElevenLabs, clip scontornate in output/clip_pack/c
   python3 pipeline/course_render.py capitoli [N ...]   # rendering dei capitoli (in parallelo)
   python3 pipeline/course_render.py corso     # unisce i capitoli, SRT completo, verifiche, report
 """
+import hashlib
 import json
 import math
 import os
@@ -35,7 +36,8 @@ MAT = CORSO / "materiale"
 OUT = ROOT / "output" / NOME_CORSO
 SLIDE_DIR = OUT / "slide"
 CLIPS = ROOT / "output" / "clip_pack" / "clips_alfa"
-POSE_DIR = ROOT / "output" / "pose_personaggio"   # pose ritagliate, comuni a tutti i corsi
+POSE_DIR = ROOT / "output" / "pose_personaggio"
+CFG_CORSO = json.loads((CORSO / "course.json").read_text()) if (CORSO / "course.json").exists() else {}   # pose ritagliate, comuni a tutti i corsi
 W, H, FPS = 1920, 1080, 25
 LEAD, TAIL = 0.6, 0.9
 WALK = 1.8              # secondi di camminata al cambio di lato
@@ -209,9 +211,11 @@ def voce():
     for s in storyboard():
         n = s["Scena"]
         txt = clean_tts(s["Testo pronunciato"])
+        for sigla, voce_ in cfg.get("pronuncia", {}).items():   # es. SdI -> "esse di i" (solo nella voce)
+            txt = re.sub(rf"\b{re.escape(sigla)}\b", voce_, txt)
         wav = vdir / f"{n:02d}.wav"
         tag = vdir / f"{n:02d}.tag"
-        key = f"{cfg['elevenlabs_voice_id']}:{cfg['elevenlabs_model']}:{hash(txt)}"
+        key = f"{cfg['elevenlabs_voice_id']}:{cfg['elevenlabs_model']}:{hashlib.sha1(txt.encode()).hexdigest()[:12]}"
         if wav.exists() and tag.exists() and tag.read_text() == key:
             continue
         body = {"text": txt, "model_id": cfg["elevenlabs_model"], "voice_settings": cfg["elevenlabs_voice_settings"]}
@@ -291,8 +295,9 @@ def timeline():
                    "titolo": s["Titolo della slide"], "t0": round(t, 3), "dur": dur, "speech_t0": round(t + LEAD, 3),
                    "speech_dur": round(vd, 3), "text": clean_sub(s["Testo pronunciato"]), "side": side,
                    "prev_side": prev_side, "walk": walk, "gesti": gesti(mov), "mov": mov,
-                   "zoom": "zoom" in (s["Zoom e transizioni"] or "").lower(), "secondaria": sec,
+                   "zoom": "zoom" in (s["Zoom e transizioni"] or "").lower() and n not in CFG_CORSO.get("scene_senza_zoom", []), "secondaria": sec,
                    "file": s.get("Schermata o schema (file)"), "clip": clip,
+                   "senza_zoom": n in CFG_CORSO.get("scene_senza_zoom", []),
                    "avviso": bool(re.search(r"errore|avviso|allarme|rosso|impedisce", (s["Elementi da evidenziare"] or "") + " " + (s["Zoom e transizioni"] or ""), re.I)),
                    "geo": geo[n - 1]})
         prev_side = side or None   # dopo una scena 3D il personaggio rientra camminando
@@ -323,7 +328,7 @@ def side_x(side):
 
 def fasi(sc):
     """Fase tutto schermo della scena: (inizio_ingresso, inizio_uscita) o None."""
-    if not REGIA_TUTTO_SCHERMO or not sc["geo"]["pic"] or sc.get("clip"):
+    if not REGIA_TUTTO_SCHERMO or not sc["geo"]["pic"] or sc.get("clip") or sc.get("senza_zoom"):
         return None
     D = sc["dur"]
     a = max(sc["walk"], LEAD) + 1.2
