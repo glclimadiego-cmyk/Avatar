@@ -190,7 +190,7 @@ def cmd_build(a):
     durs = {}
     for sc in sb["scenes"]:
         wav, tag = vdir / f"{sc['id']}.wav", vdir / f"{sc['id']}.tag"
-        key = f"{tts}:{_hash(sc['text'])}"
+        key = f"{tts}:{cfg.get('elevenlabs_voice_id') if tts == 'elevenlabs' else ''}:{cfg.get('elevenlabs_model', '')}:{_hash(sc['text'])}"
         if not (wav.exists() and tag.exists() and tag.read_text() == key):
             pv.tts(tts, sc["text"], wav, led, cfg)
             tag.write_text(key)

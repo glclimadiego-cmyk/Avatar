@@ -10,9 +10,9 @@
     "text": "Ciao! Oggi scopriamo come funziona una pompa di calore e perché può riscaldare un edificio utilizzando energia presente nell'ambiente.",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Personaggio entra camminando in centrale termica e saluta la camera. Camera: campo medio in movimento. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "t0": 0.0,
-    "dur": 9.38,
+    "dur": 10.26,
     "speech_t0": 0.5,
-    "speech_dur": 8.08
+    "speech_dur": 8.96
   },
   {
     "id": "S02",
@@ -24,10 +24,10 @@
     "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: medium-wide shot in the same boiler room; the character stands full body in the left half of the frame, three-quarter view, about to walk toward the right. The upper right third of the frame is a plain, empty, light-coloured wall area with nothing on it (reserved for a graphic added later). No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
     "motion_prompt": "The man walks to the right with a natural walk cycle, stops in the middle of the frame, turns slightly toward the camera and gestures with his open right hand toward the empty upper-right area of the wall, as if presenting something there, while talking. Smooth slow lateral tracking camera. Face and glasses stay identical. No text, no screens appear.",
     "text": "Anche quando fuori fa freddo, l'aria contiene energia termica. La pompa di calore la raccoglie attraverso un circuito frigorifero.",
-    "t0": 9.38,
-    "dur": 9.14,
-    "speech_t0": 9.88,
-    "speech_dur": 7.84
+    "t0": 10.26,
+    "dur": 9.46,
+    "speech_t0": 10.76,
+    "speech_dur": 8.16
   },
   {
     "id": "S03",
@@ -41,10 +41,10 @@
     "text": "Il refrigerante evapora assorbendo calore, il compressore ne aumenta pressione e temperatura, il condensatore trasferisce il calore all'impianto e la valvola di espansione chiude il ciclo.",
     "keyframe_prompt": "Place exactly this character (keep face, glasses, beard, body and clothes identical to the reference sheet) in this setting: Presenta un diagramma tecnico vettoriale con evaporatore, compressore, condensatore, espansione. Camera: alternanza personaggio e grafica. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. Any screen in the scene is blank. No text, no logos.",
     "motion_prompt": "stylized 3D cartoon man, bald with short dark hair on the sides, dark-blue rectangular glasses, short salt-and-pepper beard, stocky build, navy polo shirt, dark grey work trousers with orange-trimmed cargo pockets, black belt, dark safety shoes with orange laces. Presenta un diagramma tecnico vettoriale con evaporatore, compressore, condensatore, espansione. Camera: alternanza personaggio e grafica. Natural walk cycle, hands with five fingers, consistent face and glasses. Pixar-like 3D animation, soft warm lighting, clean boiler room with red and blue pipes, 16:9, steady camera. No text on screens.",
-    "t0": 18.52,
-    "dur": 12.58,
-    "speech_t0": 19.02,
-    "speech_dur": 11.28
+    "t0": 19.72,
+    "dur": 12.98,
+    "speech_t0": 20.22,
+    "speech_dur": 11.68
   },
   {
     "id": "S04",
@@ -56,10 +56,10 @@
     "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: CLOSE American shot: the frame is cut at mid-thigh, so the knees and feet are NOT visible; the character's head is near the top of the frame and his body fills the full frame height. Keep the adult body proportions of the character sheet (normal head-to-body ratio, not chibi, not a toddler). Shot of the character standing in the left third of the frame, facing the camera, friendly expression, in the same boiler room. The right two thirds of the frame show the softly blurred boiler room background with red and blue pipes, without people (space reserved for a graphic added later). No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
     "motion_prompt": "The man talks to the camera with calm, natural hand gestures, nods slightly, then points with his right hand toward the right side of the frame and looks back at the camera. Static camera. Face, glasses and hands stay consistent. No text appears.",
     "text": "Con l'energia elettrica necessaria al compressore, il sistema può trasferire all'edificio più energia termica di quella elettrica consumata. Il risultato dipende dalle condizioni di lavoro.",
-    "t0": 31.1,
-    "dur": 11.94,
-    "speech_t0": 31.6,
-    "speech_dur": 10.64
+    "t0": 32.7,
+    "dur": 12.82,
+    "speech_t0": 33.2,
+    "speech_dur": 11.52
   },
   {
     "id": "S05",
@@ -71,9 +71,9 @@
     "keyframe_prompt": "Use the FIRST image (character sheet) for the character: identical face, bald head with short dark hair on the sides, dark-blue rectangular glasses, salt-and-pepper beard, stocky build, plain navy polo shirt without logo, dark grey work trousers with orange-trimmed cargo pockets, dark safety shoes with orange laces, black smartwatch. Use the SECOND image for the boiler room (same pipes, tanks, light) and for the same character look. Scene: medium close-up (chest up) of the character centered in the frame, looking straight at the camera with a warm smile, the same boiler room softly blurred behind him. No screens, no text, no letters, no logos anywhere. Pixar-like 3D render, soft warm light, 16:9.",
     "motion_prompt": "The man talks warmly to the camera with small nods, smiles, then raises his right hand and waves goodbye. Static camera with a very slow push-in. Face and glasses stay identical. No text appears.",
     "text": "Nei prossimi episodi vedremo come dimensionarla, installarla e farla lavorare in modo efficiente. A presto!",
-    "t0": 43.04,
-    "dur": 8.02,
-    "speech_t0": 43.54,
-    "speech_dur": 6.72
+    "t0": 45.52,
+    "dur": 8.18,
+    "speech_t0": 46.02,
+    "speech_dur": 6.88
   }
 ]
