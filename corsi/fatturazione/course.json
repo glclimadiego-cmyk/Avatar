@@ -35,5 +35,6 @@
       "09-incasso-e-nota-di-credito",
       "10-errori-e-sintesi"
     ]
-  }
+  },
+  "report": "CORSO_FATTURE_report.md"
 }

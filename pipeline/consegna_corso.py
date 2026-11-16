@@ -83,7 +83,7 @@ def manifesti():
     rows = list(wb.worksheets[0].iter_rows(values_only=True))
     sb = [dict(zip(rows[0], r)) for r in rows[1:] if isinstance(r[0], int)]
     led = [json.loads(l) for l in open(OUT / "ledger.jsonl")] if (OUT / "ledger.jsonl").exists() else []
-    report = ROOT / "docs" / f"CORSO_{NOME.upper().replace('-', '_')}_report.md"
+    report = ROOT / "docs" / c_cfg.get("report", f"CORSO_{NOME.upper().replace('-', '_')}_report.md")
     for c, epi in zip(caps, nomi):
         nums = [s["n"] for s in c["scene"]]
         ss = [s for s in tl if s["cap"] == c["n"]]

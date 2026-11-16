@@ -759,6 +759,14 @@ def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch):
     frame = img.convert("RGBA")
     sx, sy = W / (R[2] - R[0]), H / (R[3] - R[1])
     to_scr = lambda bx: ((bx[0] - R[0]) * sx, (bx[1] - R[1]) * sy, (bx[2] - R[0]) * sx, (bx[3] - R[1]) * sy)
+    pic = sc["geo"]["pic"]
+    if v > 0.01 and (pic[3] - pic[1]) > (pic[2] - pic[0]):
+        # telefono a tutto schermo: intorno solo sfondo, niente testo della slide tagliato a metà
+        bgc = slide_img(n, "base").getpixel((int(W * 0.5), int(H * 0.985)))
+        cover = Image.new("RGBA", (W, H), tuple(bgc[:3]) + (int(255 * v),))
+        px = to_scr(pic)
+        ImageDraw.Draw(cover).rounded_rectangle([px[0] - 30, px[1] - 30, px[2] + 30, px[3] + 30], radius=40, fill=(0, 0, 0, 0))
+        frame.alpha_composite(cover)
     # evidenziatori durante il tutto schermo
     boxes = marcatori(sc)
     if boxes and v > 0.95:
