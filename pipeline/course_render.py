@@ -469,7 +469,7 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
         if z > 1.001:
             w, h = W / z, H / z
             x0 = min(max(cx - w / 2, 0), W - w)
-            y0 = min(max(cy - h / 2, 0), H - h)
+            y0 = 0  # lo zoom parte dal bordo alto: il titolo della slide resta sempre intero
             img = img.crop((int(x0), int(y0), int(x0 + w), int(y0 + h))).resize((W, H), Image.BILINEAR)
     frame = img.convert("RGBA")
     # schermata del telefono che entra accanto (es. scena 3)
