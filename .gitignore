@@ -13,3 +13,5 @@ output/voce_diego/*.m4a
 output/voce_diego/*.mp3
 corsi/*/materiale/
 output/fotovoltaici/
+output/deposito/
+output/deposito_registro.jsonl
