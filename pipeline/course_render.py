@@ -412,13 +412,20 @@ def find_shot(name):
 
 
 @lru_cache(maxsize=8)
-def secondary_layer(n, name, pic):
+def secondary_layer(n, name, pic, side="destra"):
     """Immagine della slide con la schermata secondaria al posto di quella principale (pc) o card telefono."""
     f = find_shot(name)
     base = slide_img(n, "base").copy()
     shot = Image.open(f).convert("RGB")
     if name.startswith("pc-") and pic:
         x0, y0, x1, y1 = [int(v) for v in pic]
+        if (y1 - y0) > (x1 - x0):
+            # slide del telefono -> "transizione alla scheda sul computer": la schermata occupa i due terzi liberi
+            # i due terzi liberi sono dalla parte opposta al personaggio
+            x0, x1 = (int(W * 0.33), int(W * 0.97)) if side == "sinistra" else (int(W * 0.03), int(W * 0.67))
+            y0, y1 = int(H * 0.20), int(H * 0.93)
+            bgc = base.getpixel((x0 + 5, int(H * 0.97)))
+            ImageDraw.Draw(base).rectangle([x0 - 10, int(H * 0.18), x1 + 10, H], fill=bgc)
         bw, bh = x1 - x0, y1 - y0
         s = min(bw / shot.width, bh / shot.height)
         sh = shot.resize((int(shot.width * s), int(shot.height * s)), Image.LANCZOS)
@@ -465,7 +472,7 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
     img = slide_img(n, "base")
     if sec and sec.startswith("pc-") and t >= sec_t:
         k = ease((t - sec_t) / 0.5)
-        lay = secondary_layer(n, sec, tuple(geo["pic"]) if geo["pic"] else None)
+        lay = secondary_layer(n, sec, tuple(geo["pic"]) if geo["pic"] else None, sc["side"])
         img = Image.blend(img, lay, k) if k < 1 else lay
         show_hl = t < sec_t + 0.5
     else:
