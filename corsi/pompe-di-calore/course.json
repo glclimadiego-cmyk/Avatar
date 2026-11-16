@@ -1,0 +1,27 @@
+{
+  "corso": "Pompe di calore (corso tecnico, episodi 02-06; l'episodio 01 è il pilota in pilota/)",
+  "tts": "elevenlabs",
+  "elevenlabs_voice_id": "T8O4r1TLnYeq4NORgabi",
+  "elevenlabs_voice_name": "Diego Gasparini (voce clonata)",
+  "elevenlabs_model": "eleven_v4",
+  "elevenlabs_voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "personaggio": "avatar 3D approvato, pacchetto clip riutilizzabili output/clip_pack (fondo verde scontornato)",
+  "materiale": "corsi/pompe-di-calore/materiale (generato da pipeline/corso_pdc.py e pipeline/schemi_pdc.py)",
+  "note": "Scelte di Diego: avatar 3D, voce clonata (modello A = eleven_v4), pacchetto clip riutilizzabili.",
+  "deposito": {
+    "corso": "pompe-di-calore",
+    "corso_titolo": "Pompe di calore",
+    "episodi": [
+      "02-i-tipi",
+      "03-cop-scop-e-mandata",
+      "04-dimensionamento",
+      "05-installazione",
+      "06-efficienza-e-manutenzione"
+    ]
+  }
+}

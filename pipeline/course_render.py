@@ -274,8 +274,10 @@ def timeline():
     for s in sb:
         n = s["Scena"]
         vd = ffprobe_duration(OUT / "voce" / f"{n:02d}.wav")
-        side = (s["Lato del personaggio"] or geo[n - 1]["side"]).strip().lower()
-        walk = WALK if (prev_side is None or side != prev_side) else 0.0
+        fname = str(s.get("Schermata o schema (file)") or "")
+        clip = fname[5:] if fname.startswith("clip:") else None
+        side = "" if clip else (s["Lato del personaggio"] or geo[n - 1]["side"]).strip().lower()
+        walk = 0.0 if clip else (WALK if (prev_side is None or side != prev_side) else 0.0)
         sec = None
         for col in ("Elementi da evidenziare", "Zoom e transizioni"):
             m = SECONDARIA.search(s.get(col) or "")
@@ -290,10 +292,10 @@ def timeline():
                    "speech_dur": round(vd, 3), "text": clean_sub(s["Testo pronunciato"]), "side": side,
                    "prev_side": prev_side, "walk": walk, "gesti": gesti(mov), "mov": mov,
                    "zoom": "zoom" in (s["Zoom e transizioni"] or "").lower(), "secondaria": sec,
-                   "file": s.get("Schermata o schema (file)"),
+                   "file": s.get("Schermata o schema (file)"), "clip": clip,
                    "avviso": bool(re.search(r"errore|avviso|allarme|rosso|impedisce", (s["Elementi da evidenziare"] or "") + " " + (s["Zoom e transizioni"] or ""), re.I)),
                    "geo": geo[n - 1]})
-        prev_side = side
+        prev_side = side or None   # dopo una scena 3D il personaggio rientra camminando
         t += dur
     (OUT / "timeline.json").write_text(json.dumps(tl, indent=1, ensure_ascii=False))
     return tl
@@ -321,7 +323,7 @@ def side_x(side):
 
 def fasi(sc):
     """Fase tutto schermo della scena: (inizio_ingresso, inizio_uscita) o None."""
-    if not REGIA_TUTTO_SCHERMO or not sc["geo"]["pic"]:
+    if not REGIA_TUTTO_SCHERMO or not sc["geo"]["pic"] or sc.get("clip"):
         return None
     D = sc["dur"]
     a = max(sc["walk"], LEAD) + 1.2
@@ -334,6 +336,8 @@ def fasi(sc):
 
 
 def char_plan(sc, is_last):
+    if sc.get("clip"):
+        return []
     f = fasi(sc)
     if f:
         return char_plan_regia(sc, is_last, f)
@@ -420,6 +424,8 @@ def pose_index(pose, local_t, seg_len):
 
 
 def draw_character(frame, sc, segs, t):
+    if not segs:
+        return
     def render_seg(seg, alpha=1.0):
         s0, s1, pose, flip, xa, xb = seg
         k = (t - s0) / max(1e-6, s1 - s0)
@@ -508,7 +514,69 @@ def ease(x):
     return x * x * (3 - 2 * x)
 
 
+@lru_cache(maxsize=8)
+def clip_meta(name):
+    d = OUT / "clip_frames" / name
+    return len(list(d.glob("f*.jpg"))) if d.exists() else 0
+
+
+def clip_frame(name, idx):
+    return Image.open(OUT / "clip_frames" / name / f"f{idx + 1:04d}.jpg").convert("RGB")
+
+
+def scene_frame_clip(sc, t, is_first, is_last_ch):
+    """Scena 3D generata (apertura/chiusura). Se la clip non c'è ancora: slide segnaposto."""
+    D = sc["dur"]
+    nf = clip_meta(sc["clip"])
+    if nf:
+        stretch = min(1.5, max(1.0, D * FPS / nf))      # rallenta fino a 1,5x, poi tiene l'ultimo fotogramma
+        fr = clip_frame(sc["clip"], min(nf - 1, int(t * FPS / stretch)))
+    else:
+        fr = slide_img(sc["n"], "base")
+    fr = fr.convert("RGBA")
+    if sc["clip"].endswith("apertura"):   # titolo dell'episodio in basso a sinistra
+        k = ease((t - 0.6) / 0.5) - ease((t - 5.5) / 0.6)
+        if k > 0:
+            from PIL import ImageFont
+            f1, f2 = ImageFont.truetype(FONT_BOLD, 46), ImageFont.truetype(FONT_BOLD, 28)
+            ep = sc["cap_titolo"].split("—")[0].strip()
+            t1, t2 = str(sc["cap_titolo"].split("—", 1)[1]).strip(), f"Corso Pompe di calore · Episodio {ep}"
+            w = int(max(f1.getlength(t1), f2.getlength(t2))) + 80
+            band = Image.new("RGBA", (w, 150), (0, 0, 0, 0))
+            d = ImageDraw.Draw(band)
+            d.rounded_rectangle([0, 0, w - 1, 149], radius=18, fill=(251, 248, 241, 235))
+            d.rectangle([0, 14, 9, 135], fill=AMBRA + (255,))
+            d.text((34, 46), t2, font=f2, fill=(122, 106, 82), anchor="lm")
+            d.text((34, 100), t1, font=f1, fill=(150, 82, 0), anchor="lm")
+            if k < 1:
+                band.putalpha(band.getchannel("A").point(lambda x, f=k: int(x * f)))
+            fr.alpha_composite(band, (60, H - 210))
+    out = fr.convert("RGB")
+    fade = 1.0
+    if is_first:
+        fade = min(fade, t / 0.5)
+    if is_last_ch:
+        fade = min(fade, (D - t) / 0.8)
+    if fade < 1:
+        out = Image.blend(Image.new("RGB", (W, H)), out, max(0.0, fade))
+    return out
+
+
+def estrai_clip():
+    """Fotogrammi delle clip 3D (output/<corso>/clips/<nome>.mp4) in JPG 1920x1080."""
+    for f in sorted((OUT / "clips").glob("*.mp4")):
+        d = OUT / "clip_frames" / f.stem
+        if d.exists() and any(d.glob("f*.jpg")):
+            continue
+        d.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-i", str(f), "-vf", f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS}",
+                        "-q:v", "3", str(d / "f%04d.jpg")], check=True)
+        print("clip", f.stem)
+
+
 def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
+    if sc.get("clip"):
+        return scene_frame_clip(sc, t, is_first_of_chapter, is_last_of_chapter)
     n = sc["n"]
     geo = sc["geo"]
     groups = geo["groups"]
@@ -829,6 +897,8 @@ if __name__ == "__main__":
         tl = timeline(); print(len(tl), "scene,", round(sum(s["dur"] for s in tl) / 60, 2), "min")
     elif cmd == "capitoli":
         capitoli([int(x) for x in sys.argv[2:]] or None)
+    elif cmd == "clip":
+        estrai_clip()
     elif cmd == "corso":
         corso()
     else:

@@ -1,7 +1,7 @@
 {
   "tts": "elevenlabs",
   "video": "animatic",
-  "elevenlabs_voice_id": "GcAgjAjkhWsmUd4GlPiv",
+  "elevenlabs_voice_id": "T8O4r1TLnYeq4NORgabi",
   "elevenlabs_model": "eleven_v4",
   "fal_video_model": "fal-ai/kling-video/v2.5-turbo/pro/image-to-video",
   "fal_keyframe_model": "fal-ai/nano-banana-2/edit",
@@ -50,5 +50,11 @@
     "GianP": "nNt0YcINdGadGcTx5fBM",
     "Marco": "GcAgjAjkhWsmUd4GlPiv"
   },
-  "elevenlabs_voice_name": "Marco - Friendly, Calm and Warm"
+  "elevenlabs_voice_name": "Diego Gasparini (voce clonata)",
+  "elevenlabs_voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  }
 }
