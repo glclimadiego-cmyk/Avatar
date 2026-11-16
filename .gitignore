@@ -15,3 +15,5 @@ corsi/*/materiale/
 output/fotovoltaici/
 output/deposito/
 output/deposito_registro.jsonl
+output/gestione-finanziamenti/
+output/pose_personaggio/
