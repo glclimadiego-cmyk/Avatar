@@ -578,12 +578,12 @@ def corso():
     caps = sorted({s["cap"] for s in tl})
     lst = cdir / "concat.txt"
     lst.write_text("".join(f"file '{(cdir / f'capitolo_{c:02d}.mp4').resolve()}'\n" for c in caps))
-    srt = OUT / "corso_fotovoltaici.srt"
+    srt = OUT / f"corso_{NOME_CORSO}.srt"
     rd.write_srt(tl, srt)
     tmp = OUT / "_corso_senza_sub.mp4"
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-map", "0:v", "-map", "0:a",
                     "-c", "copy", str(tmp)], check=True)
-    mp4 = OUT / "corso_fotovoltaici.mp4"
+    mp4 = OUT / f"corso_{NOME_CORSO}.mp4"
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(tmp), "-i", str(srt), "-map", "0:v", "-map", "0:a", "-map", "1:s",
                     "-c", "copy", "-c:s", "mov_text", "-metadata:s:s:0", "language=ita", "-movflags", "+faststart", str(mp4)], check=True)
     tmp.unlink()
