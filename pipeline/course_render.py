@@ -29,12 +29,13 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 import render as rd  # noqa: E402  (SRT, probe)
 from providers import ffprobe_duration  # noqa: E402
 
-CORSO = ROOT / "corsi" / "fotovoltaici"
+NOME_CORSO = os.environ.get("CORSO", "fotovoltaici")   # cartella in corsi/ (es. CORSO=gestione-finanziamenti)
+CORSO = ROOT / "corsi" / NOME_CORSO
 MAT = CORSO / "materiale"
-OUT = ROOT / "output" / "fotovoltaici"
+OUT = ROOT / "output" / NOME_CORSO
 SLIDE_DIR = OUT / "slide"
 CLIPS = ROOT / "output" / "clip_pack" / "clips_alfa"
-POSE_DIR = OUT / "pose"
+POSE_DIR = ROOT / "output" / "pose_personaggio"   # pose ritagliate, comuni a tutti i corsi
 W, H, FPS = 1920, 1080, 25
 LEAD, TAIL = 0.6, 0.9
 WALK = 1.8              # secondi di camminata al cambio di lato
@@ -102,7 +103,30 @@ def slide_geometry():
 # --------------------------------------------------------------------------
 # Preparazione: maschere delle evidenziazioni e pose ritagliate
 # --------------------------------------------------------------------------
+def slide_png():
+    """Slide -> PNG 1920x1080 in due versioni: 'base' (senza evidenziazioni) e 'full'."""
+    import pptx
+    SLIDE_DIR.mkdir(parents=True, exist_ok=True)
+    src = next(MAT.glob("Slide_*.pptx"))
+    is_hl = lambda n: n.startswith(("Evidenza", "Numero ", "Freccia")) and n != "Numero della slide"
+    for mode in ("base", "full"):
+        if (SLIDE_DIR / mode).exists() and any((SLIDE_DIR / mode).glob("s-*.png")):
+            continue
+        p = pptx.Presentation(src)
+        for sl in p.slides:
+            for sh in list(sl.shapes):
+                if sh.name.startswith("Etichetta dello spazio") or (mode == "base" and is_hl(sh.name)):
+                    sh._element.getparent().remove(sh._element)
+        p.save(SLIDE_DIR / f"{mode}.pptx")
+        subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(SLIDE_DIR), str(SLIDE_DIR / f"{mode}.pptx")],
+                       check=True, capture_output=True, timeout=600)
+        (SLIDE_DIR / mode).mkdir(exist_ok=True)
+        subprocess.run(["pdftoppm", "-r", "144", "-scale-to-x", str(W), "-scale-to-y", str(H), "-png",
+                        str(SLIDE_DIR / f"{mode}.pdf"), str(SLIDE_DIR / mode / "s")], check=True)
+
+
 def prepara():
+    slide_png()
     geo = slide_geometry()
     (OUT / "geometria.json").write_text(json.dumps(geo, indent=1))
     mdir = SLIDE_DIR / "maschere"
