@@ -80,11 +80,11 @@ def check_name(categoria, nome):
     assert len(parts) <= 7 and all(NOME.match(x) and x != "_versioni" and ".." not in x for x in parts), f"nome non valido: {nome}"
 
 
-def put_file(corso, epi, categoria, nome, src: Path):
+def put_file(corso, epi, categoria, nome, src: Path, sovrascrivi=False):
     check_name(categoria, nome)
     size = src.stat().st_size
     digest = sha256(src)
-    path = f"/episodi/{corso}/{epi}/file/{categoria}/{nome}"
+    path = f"/episodi/{corso}/{epi}/file/{categoria}/{nome}" + ("?sovrascrivi=1" if sovrascrivi else "")
     if size <= MAX_REQ:
         st, js = call("PUT", path, src.read_bytes(), {"Content-Length": str(size), "X-Content-SHA256": digest,
                                                       "Content-Type": "application/octet-stream"})
@@ -120,6 +120,8 @@ def episodio(manifest_path):
     for item in m["file"]:
         src = Path(item["src"])
         st, js, dg = put_file(corso, epi, item["categoria"], item["nome"], src)
+        if st == 409 and "ricevuti" not in js and m.get("sovrascrivi"):   # nuova versione: la precedente resta in _versioni
+            st, js, dg = put_file(corso, epi, item["categoria"], item["nome"], src, sovrascrivi=True)
         ok = st in (200, 201)
         if st == 422:  # impronta diversa: un nuovo tentativo
             st, js, dg = put_file(corso, epi, item["categoria"], item["nome"], src); ok = st in (200, 201)
