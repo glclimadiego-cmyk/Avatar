@@ -1,0 +1,72 @@
+<title>{{TITOLO_PAGINA}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+/* Layout: player in alto, sotto la scaletta del capitolo e l'elenco dei 10 capitoli */
+:root{--bg:#fbf8f1;--surface:#ffffff;--fg:#2b2418;--muted:#7a6a52;--accent:#b56900;--accent-soft:#f4e3c3;--line:#eadfca;
+--display:"Space Grotesk",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17130d;--surface:#211b12;--fg:#f3ead9;--muted:#b9a785;--accent:#f0a43a;--accent-soft:#3a2c17;--line:#3a2f1f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17130d;--surface:#211b12;--fg:#f3ead9;--muted:#b9a785;--accent:#f0a43a;--accent-soft:#3a2c17;--line:#3a2f1f;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
+padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+main{max-width:1040px;margin:0 auto;display:grid;gap:20px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-family:var(--display);font-size:clamp(26px,4.6vw,40px);line-height:1.1;margin:4px 0 6px;text-wrap:balance}
+.meta{color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:4px 16px;font-variant-numeric:tabular-nums}
+video{width:100%;max-width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;display:block}
+h2{font-family:var(--display);font-size:20px;margin:0}
+.now{display:grid;gap:10px}
+ol{list-style:none;margin:0;padding:0}
+.scene li{border-bottom:1px solid var(--line)}
+.scene button{display:grid;grid-template-columns:56px 1fr;gap:12px;width:100%;padding:10px 0;background:none;border:0;color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.scene b{color:var(--accent);font-variant-numeric:tabular-nums;font-weight:600}
+.caps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.caps button{display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:left;font:inherit;color:var(--fg);cursor:pointer}
+.caps button[aria-current="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.caps img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block}
+.caps .num{font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.caps .tit{font-weight:600;line-height:1.3}
+.caps .dur{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:8px 14px;cursor:pointer}
+.note{color:var(--muted);font-size:14px;max-width:70ch}
+</style>
+<main>
+  <header>
+    <div class="eyebrow">Formazione interna · Luigi Gasparini Srl</div>
+    <h1>{{TITOLO}}</h1>
+    <div class="meta">{{META}}</div>
+  </header>
+  <section class="now">
+    <video id="v" controls playsinline preload="metadata"></video>
+    <div class="nav"><button id="prev">← Capitolo precedente</button><button id="next">Capitolo successivo →</button></div>
+    <h2 id="ct"></h2>
+    <ol class="scene" id="sl"></ol>
+  </section>
+  <section style="display:grid;gap:12px">
+    <h2>Capitoli</h2>
+    <div class="caps" id="cl"></div>
+  </section>
+  <p class="note">Versione compressa per la visione da telefono. I file in qualità piena (un video per capitolo e il corso completo) restano nell'archivio di produzione.</p>
+</main>
+<script id="dati" type="application/json">{{DATI}}</script>
+<script>
+const caps=JSON.parse(document.getElementById('dati').textContent);
+const v=document.getElementById('v'),sl=document.getElementById('sl'),cl=document.getElementById('cl'),ct=document.getElementById('ct');
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+let cur=0;
+caps.forEach((c,i)=>{const b=document.createElement('button');b.innerHTML=`<img src="cap${String(c.n).padStart(2,'0')}.jpg" alt=""><span class="num">Capitolo ${c.n}</span><span class="tit"></span><span class="dur">${fmt(c.dur)}</span>`;b.querySelector('.tit').textContent=c.titolo;b.onclick=()=>{load(i,true);window.scrollTo({top:0,behavior:'smooth'});};cl.appendChild(b);});
+function load(i,play){cur=i;const c=caps[i],nn=String(c.n).padStart(2,'0');
+ v.querySelectorAll('track').forEach(t=>t.remove());v.src=`cap${nn}.mp4`;v.poster=`cap${nn}.jpg`;
+ try{const tr=document.createElement('track');tr.kind='subtitles';tr.srclang='it';tr.label='Italiano';tr.default=true;tr.src=URL.createObjectURL(new Blob([c.vtt],{type:'text/vtt'}));v.appendChild(tr);tr.addEventListener('load',()=>{tr.track.mode='showing'});}catch(e){}
+ ct.textContent=`Capitolo ${c.n} · ${c.titolo}`;sl.innerHTML='';
+ c.scene.forEach(s=>{const li=document.createElement('li'),b=document.createElement('button');b.innerHTML=`<b>${fmt(s.t)}</b><span></span>`;b.querySelector('span').textContent=s.titolo;b.onclick=()=>{v.currentTime=s.t;v.play().catch(()=>{});};li.appendChild(b);sl.appendChild(li);});
+ [...cl.children].forEach((b,k)=>b.setAttribute('aria-current',k===i));
+ try{history.replaceState(null,'','#cap-'+c.n)}catch(e){}
+ if(play)v.play().catch(()=>{});}
+document.getElementById('prev').onclick=()=>load(Math.max(0,cur-1),true);
+document.getElementById('next').onclick=()=>load(Math.min(caps.length-1,cur+1),true);
+v.addEventListener('ended',()=>{if(cur<caps.length-1)load(cur+1,true)});
+const m=location.hash.match(/cap-(\d+)/);load(m?Math.max(0,caps.findIndex(c=>c.n==+m[1])):0,false);
+</script>
