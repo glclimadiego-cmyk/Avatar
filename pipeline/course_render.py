@@ -131,6 +131,10 @@ def slide_png():
         (SLIDE_DIR / mode).mkdir(exist_ok=True)
         subprocess.run(["pdftoppm", "-r", "144", "-scale-to-x", str(W), "-scale-to-y", str(H), "-png",
                         str(SLIDE_DIR / f"{mode}.pdf"), str(SLIDE_DIR / mode / "s")], check=True)
+        for f in (SLIDE_DIR / mode).glob("s-*.png"):  # pdftoppm non mette lo zero sotto le 10 pagine
+            n = int(f.stem[2:])
+            if f.name != f"s-{n:02d}.png":
+                f.rename(f.with_name(f"s-{n:02d}.png"))
 
 
 def prepara():
