@@ -138,7 +138,8 @@ def manifesti():
         add("report", "contact_sheet.png", D / "contact_sheet.png")
         for f in F:
             assert Path(f["src"]).exists(), f
-        scheda = {"corso_titolo": dep.get("corso_titolo", NOME), "episodio_numero": c["n"], "episodio_titolo": c["titolo"], "descrizione": c["obiettivo"],
+        scheda = {"corso_titolo": dep.get("corso_titolo", NOME), "episodio_numero": dep.get("numero", c["n"]) if len(caps) == 1 else c["n"],
+                  "episodio_titolo": dep.get("titolo", c["titolo"]) if len(caps) == 1 else c["titolo"], "descrizione": c["obiettivo"],
                   "durata_s": c["dur"], "scene": [{"inizio_s": s["t"], "titolo": s["titolo"]} for s in c["scene"]], "lingua": "it"}
         (D / "manifesto.json").write_text(json.dumps({"corso": corso, "episodio": epi, "consegna": True, "scheda": scheda, "file": F}, ensure_ascii=False, indent=1))
         print(epi, len(F), "file", round(sum(Path(f["src"]).stat().st_size for f in F) / 1e6, 1), "MB")
