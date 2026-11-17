@@ -288,9 +288,9 @@ def timeline():
         walk = 0.0 if clip else (WALK if (prev_side is None or side != prev_side) else 0.0)
         sec = None
         for col in ("Elementi da evidenziare", "Zoom e transizioni"):
-            m = SECONDARIA.search(s.get(col) or "")
-            if m:
-                sec = m.group(1).strip()
+            m = SECONDARIA.findall(s.get(col) or "")
+            if m:  # l'ultima citata è quella che entra a metà o a fine scena (prima può esserci quella d'apertura)
+                sec = m[-1].strip()
         # pause per mostrare le operazioni: più evidenziazioni o una seconda schermata = più tempo
         extra = min(2.5, 0.5 * len(geo[n - 1]["groups"])) + (1.2 if sec else 0.0)
         dur = round(max(LEAD + vd + TAIL + extra, walk + 3.0), 3)
@@ -635,13 +635,16 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
     frame = img.convert("RGBA")
     # schermata del telefono che entra accanto (es. scena 3)
     if sec and sec.startswith("tel-") and t >= sec_t:
-        card = phone_card(sec)
         k = ease((t - sec_t) / 0.5)
-        x = int((W * 0.70 if sc["side"] == "destra" else W * 0.30) - (card.width if sc["side"] == "destra" else 0))
-        y = int(H - card.height - 40 + (1 - k) * 200)
-        if k < 1:
-            card = card.copy(); card.putalpha(card.getchannel("A").point(lambda v: int(v * k)))
-        frame.alpha_composite(card, (x, y))
+        dx = 0
+        for nome in [x.strip() for x in sec.split(",") if x.strip()]:
+            card = phone_card(nome)
+            x = int((W * 0.70 - card.width - dx) if sc["side"] == "destra" else (W * 0.30 + dx))
+            y = int(H - card.height - 40 + (1 - k) * 200)
+            if k < 1:
+                card = card.copy(); card.putalpha(card.getchannel("A").point(lambda v: int(v * k)))
+            frame.alpha_composite(card, (x, y))
+            dx += card.width + 24
     draw_character(frame, sc, segs, t)
     fr = frame.convert("RGB")
     fade = 1.0
@@ -804,13 +807,16 @@ def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch):
     sec = sc.get("secondaria")
     sec_t = LEAD + sc["speech_dur"] * 0.62
     if sec and sec.startswith("tel-") and t >= max(sec_t, b + TR):
-        card = phone_card(sec)
         k = ease((t - max(sec_t, b + TR)) / 0.5)
-        x = int((W * 0.70 if sc["side"] == "destra" else W * 0.30) - (card.width if sc["side"] == "destra" else 0))
-        y = int(H - card.height - 40 + (1 - k) * 200)
-        if k < 1:
-            card = card.copy(); card.putalpha(card.getchannel("A").point(lambda x: int(x * k)))
-        frame.alpha_composite(card, (x, y))
+        dx = 0
+        for nome in [x.strip() for x in sec.split(",") if x.strip()]:  # anche più telefoni affiancati
+            card = phone_card(nome)
+            x = int((W * 0.70 - card.width - dx) if sc["side"] == "destra" else (W * 0.30 + dx))
+            y = int(H - card.height - 40 + (1 - k) * 200)
+            if k < 1:
+                card = card.copy(); card.putalpha(card.getchannel("A").point(lambda v: int(v * k)))
+            frame.alpha_composite(card, (x, y))
+            dx += card.width + 24
     # avatar: esce di lato mentre la slide si ingrandisce, rientra al ritorno
     if v < 0.98:
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
