@@ -702,7 +702,8 @@ def marcatori(sc):
         x0, y0, x1, y1 = geo["pic"]
         for e in ev[:6]:
             boxes.append((x0 + e["x"] * (x1 - x0), y0 + e["y"] * (y1 - y0), x0 + (e["x"] + e["w"]) * (x1 - x0), y0 + (e["y"] + e["h"]) * (y1 - y0)))
-    return boxes
+    # riquadri con larghezza o altezza negativa (forma ribaltata nella slide): si raddrizzano
+    return [(min(b[0], b[2]), min(b[1], b[3]), max(b[0], b[2]), max(b[1], b[3])) for b in boxes]
 
 
 def lerp(a, b, k):
