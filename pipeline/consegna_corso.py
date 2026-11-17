@@ -141,7 +141,7 @@ def manifesti():
         scheda = {"corso_titolo": dep.get("corso_titolo", NOME), "episodio_numero": dep.get("numero", c["n"]) if len(caps) == 1 else c["n"],
                   "episodio_titolo": dep.get("titolo", c["titolo"]) if len(caps) == 1 else c["titolo"], "descrizione": c["obiettivo"],
                   "durata_s": c["dur"], "scene": [{"inizio_s": s["t"], "titolo": s["titolo"]} for s in c["scene"]], "lingua": "it"}
-        (D / "manifesto.json").write_text(json.dumps({"corso": corso, "episodio": epi, "consegna": True, "scheda": scheda, "file": F}, ensure_ascii=False, indent=1))
+        (D / "manifesto.json").write_text(json.dumps({"corso": corso, "episodio": epi, "consegna": True, "sovrascrivi": bool(os.environ.get("SOVRASCRIVI")), "scheda": scheda, "file": F}, ensure_ascii=False, indent=1))
         print(epi, len(F), "file", round(sum(Path(f["src"]).stat().st_size for f in F) / 1e6, 1), "MB")
 
 
