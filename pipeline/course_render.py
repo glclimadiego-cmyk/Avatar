@@ -288,9 +288,13 @@ def timeline():
         walk = 0.0 if clip else (WALK if (prev_side is None or side != prev_side) else 0.0)
         sec = None
         for col in ("Elementi da evidenziare", "Zoom e transizioni"):
-            m = SECONDARIA.findall(s.get(col) or "")
+            testo = s.get(col) or ""
+            m = SECONDARIA.findall(testo)
             if m:  # l'ultima citata è quella che entra a metà o a fine scena (prima può esserci quella d'apertura)
                 sec = m[-1].strip()
+                nude = re.findall(r"\b((?:pc|tel)-\d+[\w-]*)", testo)  # anche scritta senza parentesi («transizione a pc-16-…»)
+                if nude and nude[-1] not in sec:
+                    sec = nude[-1]
         # pause per mostrare le operazioni: più evidenziazioni o una seconda schermata = più tempo
         extra = min(2.5, 0.5 * len(geo[n - 1]["groups"])) + (1.2 if sec else 0.0)
         dur = round(max(LEAD + vd + TAIL + extra, walk + 3.0), 3)
@@ -606,7 +610,8 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
         show_hl = True
     f = fasi(sc)
     if f:
-        return scene_frame_regia(sc, t, segs, f, img, is_first_of_chapter, is_last_of_chapter)
+        return scene_frame_regia(sc, t, segs, f, img, is_first_of_chapter, is_last_of_chapter,
+                                 hl=not (sec and sec.startswith("pc-") and t >= sec_t))
     if ng and show_hl:
         img = img.copy()
         full = slide_img(n, "full")
@@ -745,14 +750,14 @@ def draw_marker(ov, box, k, color, current):
             L -= seg
 
 
-def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch):
+def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch, hl=True):
     n, D = sc["n"], sc["dur"]
     a, b = f
     TR = 0.75
     v = ease((t - a) / TR) * (1 - ease((t - b) / TR))      # 0 = vista normale, 1 = tutto schermo
     groups = sc["geo"]["groups"]
     # dopo il ritorno: compaiono anche le evidenziazioni disegnate nella slide
-    if groups and t > b:
+    if groups and t > b and hl:  # non sopra la schermata secondaria del computer
         img = img.copy()
         full = slide_img(n, "full")
         k = ease((t - b - 0.3) / 0.5)
