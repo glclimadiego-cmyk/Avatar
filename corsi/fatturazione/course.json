@@ -33,7 +33,8 @@
       "07-xml-per-lo-sdi",
       "08-dodici-giorni",
       "09-incasso-e-nota-di-credito",
-      "10-errori-e-sintesi"
+      "10-errori-e-sintesi",
+      "11-novita-v276"
     ]
   },
   "report": "CORSO_FATTURE_report.md"

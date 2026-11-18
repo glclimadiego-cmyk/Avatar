@@ -14,6 +14,7 @@ import json
 import math
 import os
 import re
+import shutil
 import subprocess
 import sys
 import urllib.error
@@ -207,13 +208,16 @@ def prepara():
 # --------------------------------------------------------------------------
 # Voce
 # --------------------------------------------------------------------------
-def voce():
+def voce(solo_capitoli=None):
+    """solo_capitoli: numeri dei capitoli da leggere (per un capitolo nuovo in coda a un corso già fatto)."""
     cfg = json.loads((CORSO / "course.json").read_text())
     vdir = OUT / "voce"
     vdir.mkdir(parents=True, exist_ok=True)
     log = (OUT / "ledger.jsonl").open("a")
     for s in storyboard():
         n = s["Scena"]
+        if solo_capitoli and int(str(s["Capitolo"]).split("—")[0].strip()) not in solo_capitoli:
+            continue
         txt = clean_tts(s["Testo pronunciato"])
         for sigla, voce_ in cfg.get("pronuncia", {}).items():   # es. SdI -> "esse di i" (solo nella voce)
             txt = re.sub(rf"\b{re.escape(sigla)}\b", voce_, txt)
@@ -221,6 +225,16 @@ def voce():
         tag = vdir / f"{n:02d}.tag"
         key = f"{cfg['elevenlabs_voice_id']}:{cfg['elevenlabs_model']}:{hashlib.sha1(txt.encode()).hexdigest()[:12]}"
         if wav.exists() and tag.exists() and tag.read_text() == key:
+            continue
+        # stesso testo già letto in un altro corso o in un'altra scena: si riusa l'audio, senza spendere caratteri
+        gia = next((t for t in sorted(ROOT.glob("output/*/voce/*.tag")) if t.read_text() == key
+                    and t.with_suffix(".wav").exists() and t.with_suffix(".mp3").exists()), None)
+        if gia:
+            shutil.copy(gia.with_suffix(".mp3"), vdir / f"{n:02d}.mp3")
+            shutil.copy(gia.with_suffix(".wav"), wav)
+            tag.write_text(key)
+            log.write(json.dumps({"stage": "voce", "scena": n, "service": "riuso audio (" + gia.parent.parent.name + ")", "chars": 0, "status": "ok"}) + "\n")
+            print("voce scena", n, "riusata da", gia.parent.parent.name)
             continue
         body = {"text": txt, "model_id": cfg["elevenlabs_model"], "voice_settings": cfg["elevenlabs_voice_settings"]}
         req = urllib.request.Request(
@@ -922,7 +936,7 @@ if __name__ == "__main__":
     if cmd == "prepara":
         prepara()
     elif cmd == "voce":
-        voce()
+        voce([int(x) for x in sys.argv[2:]] or None)
     elif cmd == "timeline":
         tl = timeline(); print(len(tl), "scene,", round(sum(s["dur"] for s in tl) / 60, 2), "min")
     elif cmd == "capitoli":

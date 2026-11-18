@@ -1,0 +1,36 @@
+{
+  "corso": "Preventivi (app del gestionale)",
+  "tts": "elevenlabs",
+  "elevenlabs_voice_id": "T8O4r1TLnYeq4NORgabi",
+  "elevenlabs_voice_name": "Diego Gasparini (voce clonata)",
+  "elevenlabs_model": "eleven_v4",
+  "elevenlabs_voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "personaggio": "avatar 3D approvato, pacchetto clip riutilizzabili output/clip_pack (fondo verde scontornato)",
+  "materiale": "corsi/preventivi/materiale (pacchetto fornito da Diego, non versionato)",
+  "note": "Scelte di Diego: avatar 3D, voce clonata (modello A = eleven_v4), pacchetto clip riutilizzabili.",
+  "report": "CORSO_PREVENTIVI_report.md",
+  "deposito": {
+    "corso": "preventivi",
+    "corso_titolo": "Preventivi",
+    "episodi": [
+      "01-a-cosa-serve",
+      "02-elenco-e-pagine",
+      "03-cliente-e-casa",
+      "04-le-righe",
+      "05-dal-catalogo",
+      "06-gli-incentivi",
+      "07-iva-e-pagamenti",
+      "08-contratto-versioni-pdf",
+      "09-completa-invia-firma",
+      "10-chi-vede-cosa-e-sintesi"
+    ]
+  },
+  "pronuncia": {
+    "AI": "ei ai"
+  }
+}
