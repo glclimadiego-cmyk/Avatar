@@ -6,7 +6,7 @@ Data: 18/11/2026.
 
 - 26 scene in 8 episodi, durata totale **12:41**, 1920×1080, 25 fps, H.264 + AAC, sottotitoli italiani incorporati.
 - Deposito: corso `preventivi-carico`, episodi con i nomi indicati nel pacchetto, «Da revisionare».
-- **Da pubblicare solo dopo l'installazione della v275.** Destinatari: consulenti e ufficio (ufficio tecnico, front office, titolare, amministratore).
+- **v275 installata (confermato da Diego il 18/11/2026): pubblicabile.** Destinatari: consulenti e ufficio (ufficio tecnico, front office, titolare, amministratore).
 
 | Ep. | Titolo | Scene | Durata |
 |---|---|---|---|
