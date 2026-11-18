@@ -37,3 +37,12 @@ Data: 16/11/2026.
 
 - fal.ai: 0 $ (pacchetto personaggio riusato).
 - ElevenLabs: 11354 caratteri, compresi nell'abbonamento.
+
+
+## Aggiornamento v276 (18/11/2026)
+
+- Nuovo episodio in coda al corso: `11-novita-v276` «Le novità della v276», scene 34–37, durata 1:19. Gli episodi già depositati non cambiano.
+- Video «solo aggiornamenti» per chi ha già fatto il corso: episodio `90-aggiornamento-v276` «Aggiornamento v276: cosa cambia» (stesse immagini, apertura e chiusura sue; voce riusata dove il testo è identico).
+- Indicazione di Diego: il capitolo nuovo del corso completo si pubblica senza revisione; il video «solo aggiornamenti» va revisionato. Il token di deposito non può pubblicare: arrivano entrambi «Da revisionare» e la pubblicazione si fa dall'app.
+- Materiale: pacchetto completo v276 (il precedente è in `corsi/_archivio/fatturazione_materiale_pre_v276`).
+- ElevenLabs: 1112 caratteri per il capitolo nuovo, compresi nell'abbonamento; fal.ai 0 $.
