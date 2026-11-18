@@ -23,7 +23,7 @@ Data: 17/11/2026.
 
 ## Scelte fatte
 
-- **PIN iniziale coperto.** Il pacchetto lascia a Diego la scelta se il «1234» può restare in vista. In attesa della risposta è stato coperto con «••••» in `pc-04`, `pc-05`, `pc-06` (due punti) e `tel-03`, sia nelle schermate sia nelle immagini della presentazione. La voce dice solo «PIN iniziale», come nel copione. Se Diego decide che può restare, si rifà l'episodio 03 senza costi.
+- **PIN iniziale in vista.** Il 18/11/2026 Diego ha deciso che il «1234» può restare in vista: l'episodio 03 è stato rifatto con le schermate originali (`pc-04`, `pc-05`, `pc-06`, `tel-03`) e sostituito nell'app. La voce dice solo «PIN iniziale», come nel copione.
 - Regia a tutto schermo con evidenziazioni una alla volta; schermate del telefono accanto al personaggio nelle scene 3, 5 e 9.
 
 ## Da sapere
