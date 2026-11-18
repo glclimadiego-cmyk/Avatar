@@ -289,11 +289,12 @@ def timeline():
         sec = None
         for col in ("Elementi da evidenziare", "Zoom e transizioni"):
             testo = s.get(col) or ""
-            m = SECONDARIA.findall(testo)
+            # quella citata «in apertura» non entra a metà scena: si salta (si vede già la slide principale)
+            m = [x.group(1) for x in SECONDARIA.finditer(testo) if "apertura" not in testo[max(0, x.start() - 80):x.start()].lower()]
             if m:  # l'ultima citata è quella che entra a metà o a fine scena (prima può esserci quella d'apertura)
                 sec = m[-1].strip()
                 nude = re.findall(r"\b((?:pc|tel)-\d+[\w-]*)", testo)  # anche scritta senza parentesi («transizione a pc-16-…»)
-                if nude and nude[-1] not in sec:
+                if nude and nude[-1] not in sec and "apertura" not in testo[max(0, testo.rfind(nude[-1]) - 80):testo.rfind(nude[-1])].lower():
                     sec = nude[-1]
         # pause per mostrare le operazioni: più evidenziazioni o una seconda schermata = più tempo
         extra = min(2.5, 0.5 * len(geo[n - 1]["groups"])) + (1.2 if sec else 0.0)
