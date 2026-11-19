@@ -66,8 +66,10 @@ def h_blocco(text, size, w, maxw, gap=1.28):
 def intestazione(s, sch):
     """Titolo dello schema (facoltativo) in alto; ritorna la y da cui partire."""
     if sch.get("titolo"):  # più in basso: in alto a sinistra, a tutto schermo, c'è la fascia col titolo della scena
-        s.text((110, 175), sch["titolo"], 74, "b", AMBRA)
-        y = 290
+        ts = 74
+        while len(wrap(sch["titolo"], ts, "b", W - 220)) > 2 and ts > 50:
+            ts -= 4
+        y = blocco(s, 110, 150, sch["titolo"], ts, "b", AMBRA, W - 220, gap=1.18) + 25
         if sch.get("sottotitolo"):
             y = blocco(s, 110, y, sch["sottotitolo"], 46, "r", MUTED, W - 220) + 20
         return y + 20
@@ -117,7 +119,7 @@ def sch_schede(s, sch):
     n = len(voci)
     cols = sch.get("colonne") or (1 if n <= 3 and sch.get("righe_lunghe") else (2 if n <= 6 else 3))
     if n <= 3 and not sch.get("righe_lunghe") and not sch.get("colonne"):
-        cols = n
+        cols = n if W > 2200 else 1  # con l'immagine accanto lo spazio è stretto: una scheda per riga
     rows = math.ceil(n / cols)
     gap = 40
     cw = (W - 220 - gap * (cols - 1)) / cols
@@ -133,7 +135,8 @@ def sch_schede(s, sch):
         for ts in (84, 78, 72, 66, 60, 56, 52, 48, 44, 40):
             hs = ts * 0.82
             need = h_blocco(tit, ts, "b", cw - 120) + (h_blocco(txt, hs, "r", cw - 120) + 14 if txt else 0)
-            if need <= ch - 60:
+            parola_max = max(F(ts, "b").getlength(w) for w in tit.split())
+            if need <= ch - 60 and parola_max <= cw - 120:
                 break
         yy = y + max(30, (ch - need) / 2)
         yy = blocco(s, x + 70, yy, tit, ts, "b", INK, cw - 120)
@@ -188,7 +191,10 @@ def sch_barre(s, sch):
     for i, v in enumerate(voci):
         y = y0 + 40 + i * (bh + 40)
         col = COLORI.get(v[2] if len(v) > 2 else "ambra", AMBRA)
-        s.text((110, y + bh / 2), v[0], 58, "b", INK, anchor="lm")
+        ls = 58
+        while F(ls, "b").getlength(v[0]) > lw - 140 and ls > 34:
+            ls -= 2
+        s.text((110, y + bh / 2), v[0], ls, "b", INK, anchor="lm")
         L = (W - 110 - lw - 420) * v[1] / vmax
         s.d.rounded_rectangle([lw, y, lw + max(L, 30), y + bh], radius=18, fill=col)
         s.text((lw + max(L, 30) + 30, y + bh / 2), v[3] if len(v) > 3 else f"{v[1]}", 58, "b", col, anchor="lm")
@@ -431,7 +437,8 @@ def pannello_img(s, files, x0, y0, x1, y1):
         bw, bh = bx1 - bx0, by1 - by0
         if im.mode in ("RGBA", "LA") or "transparency" in im.info:
             im = im.convert("RGBA")
-            s.card(bx0, by0, bw, bh, fill=(246, 242, 234), border=BORDO, r=30, width=4)
+            scuro = Path(str(f)).name.startswith("Schema_")  # gli schemi d'impianto Tatano sono disegnati per fondo nero
+            s.card(bx0, by0, bw, bh, fill=(20, 20, 22) if scuro else (246, 242, 234), border=BORDO, r=30, width=4)
             k = min((bw - 60) / im.width, (bh - 60) / im.height)
             im = im.resize((int(im.width * k), int(im.height * k)), Image.LANCZOS)
             s.im.paste(im, (bx0 + (bw - im.width) // 2, by0 + (bh - im.height) // 2), im)
