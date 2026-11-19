@@ -1,0 +1,57 @@
+{
+  "corso": "Tatano Kalorina Mini K30 — corso per i tecnici",
+  "tts": "elevenlabs",
+  "elevenlabs_voice_id": "T8O4r1TLnYeq4NORgabi",
+  "elevenlabs_voice_name": "Diego Gasparini (voce clonata)",
+  "elevenlabs_model": "eleven_v4",
+  "elevenlabs_voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "personaggio": "avatar 3D approvato, pacchetto clip riutilizzabili output/clip_pack (fondo verde scontornato)",
+  "materiale": "corsi/tatano-tecnici/materiale (contenuto scritto da depliant e manuale Tatano, non versionato)",
+  "note": "Scelte di Diego: avatar 3D, voce clonata (modello A = eleven_v4), pacchetto clip riutilizzabili.",
+  "report": "CORSO_TATANO_report.md",
+  "pronuncia": {
+    "Er01": "e erre zero uno",
+    "Er02": "e erre zero due",
+    "Er04": "e erre zero quattro",
+    "Er11": "e erre undici",
+    "Er12": "e erre dodici",
+    "Er13": "e erre tredici",
+    "Er16": "e erre sedici",
+    "Er18": "e erre diciotto",
+    "Er22": "e erre ventidue",
+    "Er32": "e erre trentadue",
+    "Er34": "e erre trentaquattro",
+    "Er35": "e erre trentacinque",
+    "MK30": "emme cappa trenta",
+    "K30": "cappa trenta",
+    "K20": "cappa venti",
+    "Mini K": "Mini cappa",
+    "SY400": "esse ipsilon quattrocento",
+    "DN 25": "di enne venticinque",
+    "CO2": "ci o due",
+    "APP 4 HEAT": "app for heat",
+    "PORT": "port",
+    "OFF": "off",
+    "UNI": "uni",
+    "EN": "e enne",
+    "nZEB": "enne zeb"
+  },
+  "deposito": {
+    "corso": "tatano-mini-k30-tecnici",
+    "corso_titolo": "Tatano Mini K30 · per i tecnici",
+    "episodi": [
+      "01-la-macchina",
+      "02-installazione-e-prima-accensione",
+      "03-funzionamento-e-centralina",
+      "04-manutenzione-utente",
+      "05-manutenzione-annuale",
+      "06-allarmi-e-soluzioni",
+      "07-errori-e-sintesi"
+    ]
+  }
+}
