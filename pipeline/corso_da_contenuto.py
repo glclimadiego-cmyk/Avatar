@@ -398,9 +398,72 @@ TIPI = {"copertina": sch_copertina, "schede": sch_schede, "tabella": sch_tabella
         "lista": sch_lista, "caldaia": sch_caldaia, "locale": sch_locale, "camino": sch_camino}
 
 
+CARTELLE_IMG = ["Foto_Tatano", "Illustrazioni"]
+
+
+def trova_img(nome):
+    """Cerca l'immagine nel materiale del corso e in quello del corso gemello (stessa famiglia di prodotto)."""
+    basi = [MAT] + [p / "materiale" for p in sorted((ROOT / "corsi").glob(NOME.split("-")[0] + "-*")) if p.name != NOME]
+    for b in basi:
+        for c in [""] + CARTELLE_IMG:
+            for est in ("", ".png", ".jpg"):
+                f = b / c / f"{nome}{est}"
+                if f.is_file():
+                    return f
+    raise FileNotFoundError(nome)
+
+
+def pannello_img(s, files, x0, y0, x1, y1):
+    """Una o due immagini una sopra l'altra nel riquadro: foto 'a riempimento' con angoli arrotondati,
+    immagini scontornate (con trasparenza) intere su fondo chiaro."""
+    from PIL import Image, ImageDraw as IDraw
+    n = len(files)
+    gap = 36
+    cols = 2 if n == 4 else 1
+    rows = math.ceil(n / cols)
+    ww = (x1 - x0 - gap * (cols - 1)) / cols
+    hh = (y1 - y0 - gap * (rows - 1)) / rows
+    for i, f in enumerate(files):
+        im = Image.open(trova_img(f))
+        r, c = divmod(i, cols)
+        bx0, by0 = int(x0 + c * (ww + gap)), int(y0 + r * (hh + gap))
+        bx1, by1 = int(bx0 + ww), int(by0 + hh)
+        bw, bh = bx1 - bx0, by1 - by0
+        if im.mode in ("RGBA", "LA") or "transparency" in im.info:
+            im = im.convert("RGBA")
+            s.card(bx0, by0, bw, bh, fill=(246, 242, 234), border=BORDO, r=30, width=4)
+            k = min((bw - 60) / im.width, (bh - 60) / im.height)
+            im = im.resize((int(im.width * k), int(im.height * k)), Image.LANCZOS)
+            s.im.paste(im, (bx0 + (bw - im.width) // 2, by0 + (bh - im.height) // 2), im)
+        else:
+            im = im.convert("RGB")
+            k = max(bw / im.width, bh / im.height)
+            im = im.resize((int(im.width * k) + 1, int(im.height * k) + 1), Image.LANCZOS)
+            l, t = (im.width - bw) // 2, (im.height - bh) // 2
+            im = im.crop((l, t, l + bw, t + bh))
+            m = Image.new("L", (bw, bh), 0)
+            IDraw.Draw(m).rounded_rectangle([0, 0, bw - 1, bh - 1], radius=30, fill=255)
+            s.im.paste(im, (bx0, by0), m)
+            s.d.rounded_rectangle([bx0, by0, bx1, by1], radius=30, outline=BORDO, width=4)
+
+
 def disegna(nome, sch):
+    global W
     s = S()
-    TIPI[sch["tipo"]](s, sch)
+    imgs = sch.get("immagine")
+    if imgs:
+        imgs = [imgs] if isinstance(imgs, str) else imgs
+        quota = sch.get("quota_img", 0.36)
+        Wtot = W
+        W = int(Wtot * (1 - quota))  # il contenuto si stringe a sinistra, le immagini vanno a destra
+        try:
+            TIPI[sch["tipo"]](s, sch)
+        finally:
+            W = Wtot
+        top = 170 if sch["tipo"] != "copertina" else 120
+        pannello_img(s, imgs, W * (1 - quota) + 10, top, W - 90, H - 80)
+    else:
+        TIPI[sch["tipo"]](s, sch)
     ASSET.mkdir(parents=True, exist_ok=True)
     s.im.save(ASSET / f"{nome}.png")
     return s.boxes
