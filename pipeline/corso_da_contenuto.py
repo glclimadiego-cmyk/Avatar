@@ -64,13 +64,13 @@ def h_blocco(text, size, w, maxw, gap=1.28):
 
 def intestazione(s, sch):
     """Titolo dello schema (facoltativo) in alto; ritorna la y da cui partire."""
-    if sch.get("titolo"):
-        s.text((110, 95), sch["titolo"], 74, "b", AMBRA)
-        y = 210
+    if sch.get("titolo"):  # più in basso: in alto a sinistra, a tutto schermo, c'è la fascia col titolo della scena
+        s.text((110, 175), sch["titolo"], 74, "b", AMBRA)
+        y = 290
         if sch.get("sottotitolo"):
             y = blocco(s, 110, y, sch["sottotitolo"], 46, "r", MUTED, W - 220) + 20
         return y + 20
-    return 90
+    return 170
 
 
 def nota(s, sch):
