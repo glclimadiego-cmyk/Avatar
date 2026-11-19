@@ -1,5 +1,5 @@
 {
-  "corso": "Tatano Kalorina Mini K30 — corso per i commerciali",
+  "corso": "Tatano Kalorina Mini K30 — corso per i consulenti",
   "tts": "elevenlabs",
   "elevenlabs_voice_id": "T8O4r1TLnYeq4NORgabi",
   "elevenlabs_voice_name": "Diego Gasparini (voce clonata)",
@@ -43,7 +43,7 @@
   },
   "deposito": {
     "corso": "tatano-mini-k30-commerciale",
-    "corso_titolo": "Tatano Mini K30 · per i commerciali",
+    "corso_titolo": "Tatano Mini K30 · per i consulenti",
     "episodi": [
       "01-il-prodotto",
       "02-perche-la-biomassa",

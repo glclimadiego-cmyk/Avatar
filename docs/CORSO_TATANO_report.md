@@ -1,6 +1,8 @@
 # Corsi «Tatano Kalorina Mini K30» — report di produzione
 
-Data: 19/11/2026. Richiesta di Diego: un video per i commerciali e uno per i tecnici sulla caldaia a biomassa Tatano Kalorina Mini K30.
+Data: 19/11/2026. Richiesta di Diego: un video per i consulenti e uno per i tecnici sulla caldaia a biomassa Tatano Kalorina Mini K30.
+
+Nota: il corso si chiama «per i consulenti» (non «commerciali»), come nel resto del gestionale; il codice del corso nel deposito resta `tatano-mini-k30-commerciale`.
 
 ## Fonti
 
@@ -11,7 +13,7 @@ Nessun pacchetto dallo sviluppo: copione, schemi e slide sono scritti da noi, so
 
 Testi e schemi restano in `corsi/tatano-*/materiale` (fuori da git). Il programma che costruisce slide e storyboard è `pipeline/corso_da_contenuto.py`.
 
-## Corso per i commerciali — corso `tatano-mini-k30-commerciale`
+## Corso per i consulenti — corso `tatano-mini-k30-commerciale`
 
 21 scene, **10:50**.
 
