@@ -29,6 +29,7 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "pipeline"))
 import render as rd  # noqa: E402  (SRT, probe)
+from allinea import completa, posizioni  # noqa: E402
 from providers import ffprobe_duration  # noqa: E402
 
 NOME_CORSO = os.environ.get("CORSO", "fotovoltaici")   # cartella in corsi/ (es. CORSO=gestione-finanziamenti)
@@ -288,6 +289,25 @@ def gesti(mov: str):
 SECONDARIA = re.compile(r"\((pc-\d+[^)]*|tel-\d+[^)]*)\)")
 
 
+def tempi_evidenze(s, ng):
+    """Quando evidenziare ogni riquadro: frazioni del parlato (0-1), allineate a quello che la voce sta dicendo.
+    1) file tempi_evidenze.json del pacchetto (corsi scritti da noi); 2) etichette «…» della colonna
+    «Elementi da evidenziare» cercate nel testo pronunciato; 3) altrimenti None (distribuzione uniforme)."""
+    if not ng:
+        return None
+    f = MAT / "tempi_evidenze.json"
+    if f.exists():
+        t = json.loads(f.read_text()).get(str(s["Scena"]))
+        if t and len(t) == ng:
+            return t
+    etich = re.findall(r"«([^»]+)»", s.get("Elementi da evidenziare") or "")
+    if len(etich) >= ng:
+        fr = posizioni(etich[:ng], s["Testo pronunciato"] or "")
+        if sum(x is not None for x in fr) >= max(1, (ng + 1) // 2):
+            return [round(x, 3) for x in completa(fr)]
+    return None
+
+
 def timeline():
     sb = storyboard()
     geo = json.loads((OUT / "geometria.json").read_text())
@@ -322,6 +342,7 @@ def timeline():
                    "file": s.get("Schermata o schema (file)"), "clip": clip,
                    "senza_zoom": n in CFG_CORSO.get("scene_senza_zoom", []),
                    "avviso": bool(re.search(r"errore|avviso|allarme|rosso|impedisce", (s["Elementi da evidenziare"] or "") + " " + (s["Zoom e transizioni"] or ""), re.I)),
+                   "tempi": tempi_evidenze(s, len(geo[n - 1]["groups"])),
                    "geo": geo[n - 1]})
         prev_side = side or None   # dopo una scena 3D il personaggio rientra camminando
         t += dur
@@ -356,6 +377,8 @@ def fasi(sc):
     D = sc["dur"]
     a = max(sc["walk"], LEAD) + 1.2
     b = LEAD + sc["speech_dur"] * 0.80
+    if sc.get("tempi"):  # resta a tutto schermo finché la voce ha nominato l'ultimo riquadro
+        b = max(b, LEAD + sc["speech_dur"] * max(sc["tempi"]) + 2.6)
     sec = sc.get("secondaria")
     if sec:  # la schermata secondaria arriva a vista normale
         b = min(b, LEAD + sc["speech_dur"] * 0.62 - 0.9)
@@ -612,7 +635,10 @@ def scene_frame(sc, t, segs, is_first_of_chapter, is_last_of_chapter, is_last):
     D = sc["dur"]
     sp0 = LEAD
     # tempi delle evidenziazioni: distribuite sul parlato
-    times = [sp0 + sc["speech_dur"] * (0.12 + 0.6 * (i / max(1, ng - 1) if ng > 1 else 0.1)) for i in range(ng)]
+    if sc.get("tempi") and len(sc["tempi"]) == ng:
+        times = [sp0 + sc["speech_dur"] * f - 0.3 for f in sc["tempi"]]
+    else:
+        times = [sp0 + sc["speech_dur"] * (0.12 + 0.6 * (i / max(1, ng - 1) if ng > 1 else 0.1)) for i in range(ng)]
     sec = sc.get("secondaria")
     sec_t = sp0 + sc["speech_dur"] * (0.62 if sec else 9)
     img = slide_img(n, "base")
@@ -799,7 +825,14 @@ def scene_frame_regia(sc, t, segs, f, img, is_first, is_last_ch, hl=True):
     boxes = marcatori(sc)
     if boxes and v > 0.95:
         t0, t1 = a + TR + 0.4, b - 0.9
-        times = [t0 + (t1 - t0) * (i / max(1, len(boxes) - 1) if len(boxes) > 1 else 0.0) for i in range(len(boxes))]
+        if sc.get("tempi") and len(sc["tempi"]) == len(boxes):
+            # ogni riquadro si accende quando la voce lo nomina (un attimo prima)
+            times = []
+            for f in sc["tempi"]:
+                ti = min(max(LEAD + sc["speech_dur"] * f - 0.3, t0), t1)
+                times.append(max(ti, times[-1] + 0.5) if times else ti)
+        else:
+            times = [t0 + (t1 - t0) * (i / max(1, len(boxes) - 1) if len(boxes) > 1 else 0.0) for i in range(len(boxes))]
         shown = [i for i, ti in enumerate(times) if t >= ti]
         if shown:
             cur = shown[-1]

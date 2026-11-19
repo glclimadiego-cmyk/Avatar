@@ -22,6 +22,7 @@ from pptx.util import Emu
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from corso_pdc import add_rect, add_text  # noqa: E402
+from allinea import completa, posizioni  # noqa: E402
 from schemi_pdc import (AMBRA, AMBRA_L, BG, BLU, BORDO, CARD, F, GRIGIO, H, INK, MUTED, ROSSO, VERDE, W, S)  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -366,6 +367,33 @@ def sch_camino(s, sch):
         y += hv + 34
 
 
+def etichette(sch):
+    """Per ogni riquadro evidenziato, le parole con cui la voce lo nomina (stesso ordine dei riquadri)."""
+    if sch.get("chiavi"):
+        return sch["chiavi"]
+    t = sch["tipo"]
+    if t == "copertina":
+        return sch.get("punti", [])
+    if t == "schede":
+        return [v[0] for v in sch["voci"]]
+    if t == "tabella":
+        gr = sch.get("gruppi") or [[k] for k in range(len(sch["righe"]))]
+        return [" ".join(str(c) for c in sch["righe"][g[0]]) for g in gr]
+    if t == "barre":
+        return [v[0] for v in sch["voci"]]
+    if t == "due":
+        return [[sch[k]["voci"][0], sch[k]["titolo"]] for k in ("sx", "dx")]
+    if t == "lista":
+        return sch["voci"]
+    if t == "caldaia":
+        return [v[0] for v in sch["voci"]]
+    if t == "locale":
+        return ["vano tecnico locale", "finestra aerazione"]
+    if t == "camino":
+        return ["scarico fumi canna fumaria"] + sch["voci"]
+    return []
+
+
 TIPI = {"copertina": sch_copertina, "schede": sch_schede, "tabella": sch_tabella, "barre": sch_barre, "due": sch_due,
         "lista": sch_lista, "caldaia": sch_caldaia, "locale": sch_locale, "camino": sch_camino}
 
@@ -412,6 +440,12 @@ def build():
         add_text(s, "Numero della slide", SW * .88, SH * .952, SW * .09, SH * .04, f"{n} / {len(scene)}", 10, False, (122, 106, 82))
         rows.append([n, f"{cap} — {c['capitoli'][str(cap)]['titolo']}", sc["titolo"], f"Asset_Grafici/{nome}.png", "Schema grafico",
                      "", sc["testo"], side, sc.get("mov", "indica"), "", "zoom" if sc.get("zoom") else "", None, None, None])
+    tempi = {}
+    for n, sc in enumerate(scene, 1):
+        et = etichette(sc["schema"])
+        if et and len(et) == len(riq[f"schema-{n:02d}"]):
+            tempi[str(n)] = [round(x, 3) for x in completa(posizioni(et, sc["testo"]))]
+    (MAT / "tempi_evidenze.json").write_text(json.dumps(tempi, indent=1))
     prs.save(MAT / f"Slide_{c['file']}.pptx")
     (ASSET / "riquadri.json").write_text(json.dumps(riq))
     wb = openpyxl.Workbook()
