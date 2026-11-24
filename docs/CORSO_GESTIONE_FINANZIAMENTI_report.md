@@ -66,3 +66,12 @@ Stesso procedimento del corso «Fotovoltaici» (vedi `docs/CORSO_FOTOVOLTAICI_re
 
 - Labiale non sincronizzato; alcune animazioni interne agli schemi non riprodotte (gli schemi compaiono interi).
 - Punti aperti del pacchetto rispettati: i testi con valore legale (condizioni «presunte», «Aggiornamento dei dati del finanziamento») non sono letti né mostrati come approvati; le finanziarie nelle schermate sono di prova.
+
+
+## Aggiornamento v301 (24/11/2026)
+
+- Nuovo episodio in coda: `11-novita-v301` «Le novità della v301», scene 35–48, 6:00: il ruolo «Monitoraggio finanziamenti», «📎 Carica tu» per i documenti arrivati per email o WhatsApp, «Approvata» da sola e il nuovo avviso della firma, «Sospesa: serve un garante», la finanziaria in ogni riga e «🏦 Come vanno le finanziarie».
+- Episodio `01-a-cosa-serve` rifatto (1:11): la scena 1 ora dice «undici capitoli»; depositato al posto del precedente.
+- Video «solo aggiornamenti»: episodio `91-aggiornamento-v301` «Aggiornamento v301: cosa cambia» (14 scene, voce riusata dove il testo è identico).
+- Indicazione di Diego (v276): il capitolo nuovo del corso completo si pubblica senza revisione; il video «solo aggiornamenti» va revisionato. Il token non pubblica: arrivano tutti «Da revisionare».
+- Da pubblicare dopo l'installazione della v301. Materiale v262 archiviato in `corsi/_archivio/gestione-finanziamenti_materiale_v262`.
